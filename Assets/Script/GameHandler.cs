@@ -5,20 +5,27 @@ using UnityEngine.UI;
 
 public class GameHandler : MonoBehaviour
 {
-    public GameObject Alert, MCQ_UI;
-    private GameObject enemyHandler;
+    public GameObject Alert, MCQ_UI, Clear_Msg, GameOver_MSG;
     public Button Ans1, Ans2, Ans3, Ans4, cfmbtn;
-    private GameObject gameHandler;
-    private bool Ans1Sel = false, Ans2Sel = false, Ans3Sel = false, Ans4Sel = false;
+
+    private GameObject enemyHandler, gameHandler, player;
+    private bool Ans1Sel = false, Ans2Sel = false, Ans3Sel = false, Ans4Sel = false, isGameEnd = false, isPlayerDead =
+        false;
     private float sec = 2.0f;
     private List<string> currMCQs;
+    
     //public GameObject GameManager;
     // Start is called before the first frame update
     void Start()
     {
         gameHandler = GameObject.FindWithTag("GameController");
         enemyHandler = GameObject.FindWithTag("EnemyHandler");
+        player = GameObject.FindWithTag("Player");
+
         Alert.SetActive(false);
+        Clear_Msg.SetActive(false);
+        GameOver_MSG.SetActive(false);
+
         Button btn = Ans1.GetComponent<Button>();
         btn.onClick.AddListener(SelectedAns1);
         Button btn2 = Ans2.GetComponent<Button>();
@@ -111,36 +118,75 @@ public class GameHandler : MonoBehaviour
     {
         if (Ans1Sel && currMCQs[2] == "T")
         {
-            Debug.Log("Correct");
+            //Debug.Log("Correct");
+            if (enemyHandler.GetComponent<Enemy>().isBossSpawn)
+            {
+                enemyHandler.GetComponent<Enemy>().deductHP(1);
+            }
             enemyHandler.GetComponent<Enemy>().EnemyDeath();
+            player.GetComponent<PlayerCharacter>().playAtkAni();
         }
         else if (Ans2Sel && currMCQs[4] == "T")
         {
-            Debug.Log("Correct");
+            if (enemyHandler.GetComponent<Enemy>().isBossSpawn)
+            {
+                enemyHandler.GetComponent<Enemy>().deductHP(1);
+            }
             enemyHandler.GetComponent<Enemy>().EnemyDeath();
+            player.GetComponent<PlayerCharacter>().playAtkAni();
         }
         else if (Ans3Sel && currMCQs[6] == "T")
         {
-            Debug.Log("Correct");
+            if (enemyHandler.GetComponent<Enemy>().isBossSpawn)
+            {
+                enemyHandler.GetComponent<Enemy>().deductHP(1);
+            }
             enemyHandler.GetComponent<Enemy>().EnemyDeath();
+            player.GetComponent<PlayerCharacter>().playAtkAni();
         }
         else if (Ans4Sel && currMCQs[8] == "T")
         {
-            Debug.Log("Correct");
+            if (enemyHandler.GetComponent<Enemy>().isBossSpawn)
+            {
+                enemyHandler.GetComponent<Enemy>().deductHP(1);
+            }
             enemyHandler.GetComponent<Enemy>().EnemyDeath();
+            player.GetComponent<PlayerCharacter>().playAtkAni();
         }
         else
         {
             Debug.Log("Incorrect");
+            //Save the questions and reuse the questions at the back
+            gameHandler.GetComponent<ReadMCQ>().saveWrongQns(currMCQs);
+            player.GetComponent<PlayerCharacter>().deductHP();
         }
         MCQ_UI.SetActive(false);
         StartCoroutine(DisplayCall());
     }
 
+    public void setGameComplete()
+    {
+        isGameEnd = true;
+    }
+    public void setGameOver()
+    {
+        isPlayerDead = true;
+    }
     IEnumerator DisplayCall()
     {
         yield return new WaitForSeconds(sec);
         gameHandler.GetComponent<ReadMCQ>().nextQns();
-        MCQ_UI.SetActive(true);
+        if (isPlayerDead)
+        {
+            GameOver_MSG.SetActive(true);
+        }
+        else if(isGameEnd)
+        {
+            Clear_Msg.SetActive(true);
+            //put method and go back to world selection
+        }else if (!isGameEnd)
+        {
+            MCQ_UI.SetActive(true);
+        }
     }
 }

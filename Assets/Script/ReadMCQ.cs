@@ -7,12 +7,15 @@ using TMPro;
 
 public class ReadMCQ : MonoBehaviour
 {
-    private GameObject EnemyMCQ;
-    private GameObject gameHandler;
-    public TMP_Text MCQ_Qns, Ans1, Ans2, Ans3, Ans4;
-    private int qnsLocation = 0;
-    List<string> currQns = new List<string>();
     public string[] AllQnsAns;
+    public TMP_Text MCQ_Qns, Ans1, Ans2, Ans3, Ans4;
+
+    private GameObject EnemyMCQ, gameHandler, playerHandler;
+    private int qnsLocation = 0;
+
+    List<string> currQns = new List<string>();
+    List<List<string>> WrongQns = new List<List<string>>();
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -21,9 +24,10 @@ public class ReadMCQ : MonoBehaviour
         AllQnsAns = System.IO.File.ReadAllLines(path);
 
         EnemyMCQ = GameObject.FindWithTag("EnemyHandler");
-        EnemyMCQ.GetComponent<Enemy>().spawnEnemy(AllQnsAns);
-
+        EnemyMCQ.GetComponent<Enemy>().countEnemy(AllQnsAns);
         gameHandler = GameObject.FindWithTag("GameController");
+        playerHandler = GameObject.FindWithTag("Player");
+        playerHandler.GetComponent<PlayerCharacter>().setPlayerHP(AllQnsAns);
         //Debug.Log(AllQnsAns.Length);
         //each qns should hvae 9 lines 1st line qns follow by each answer and it's True False value
 
@@ -53,16 +57,23 @@ public class ReadMCQ : MonoBehaviour
             }
             DisplayQNS();
         }
-        else
+        else if(WrongQns.Count == 0)
         {
-            Debug.Log("End game");
-            //qns end game end count score
-        }
+            Debug.Log("End game from MCQ");
+            //for loop to display wrong qeustions
+            //wrong questions --;
+            //wrong questions ++; should be set at incorrect in gamehandler
+        }//else end game // by right won't go into this conditions
         
     }
     public void nextQns()
     {
         qnsLocation += 9;
         PutinIndividual(AllQnsAns);
+    }
+
+    public void saveWrongQns(List<string> currWrongQns)
+    {
+        WrongQns.Add(currWrongQns);
     }
 }

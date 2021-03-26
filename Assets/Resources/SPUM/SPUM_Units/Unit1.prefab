@@ -542,7 +542,7 @@ GameObject:
   - component: {fileID: -2174653531186191553}
   m_Layer: 5
   m_Name: Unit1
-  m_TagString: Untagged
+  m_TagString: EnemyMob
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
