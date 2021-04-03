@@ -31,7 +31,10 @@ public class Enemy : MonoBehaviour
     public void countEnemy(string[] MCQs)
     {
         int qnsCount = MCQs.Length / 9;
+
+        gameHandler = GameObject.FindWithTag("GameController");
         
+
         Scene currentScene = SceneManager.GetActiveScene();
         string sceneName = currentScene.name;
 
@@ -41,13 +44,13 @@ public class Enemy : MonoBehaviour
         //}
         if (sceneName == "World 1")
         {
-            enemyMobCount = qnsCount - 5;
-            enemyMobLeft = qnsCount - 5;
+            enemyMobCount = qnsCount - gameHandler.GetComponent<GameHandler>().getBossHP();
+            enemyMobLeft = qnsCount - gameHandler.GetComponent<GameHandler>().getBossHP();
             enemyHP = 5;
         }
         else if (sceneName == "World 2")
         {
-            enemyMobCount = qnsCount - 6;
+            enemyMobCount = qnsCount - gameHandler.GetComponent<GameHandler>().getBossHP();
             enemyMobLeft = qnsCount - 6;
             enemyHP = 6;
         }
@@ -72,7 +75,6 @@ public class Enemy : MonoBehaviour
     {
         double x = -2.0, y = 1.5, z = 0;
         double adjustment = -2;
-
         //if (isAdd)
         //{
         //    isAdd = false;
@@ -164,6 +166,21 @@ public class Enemy : MonoBehaviour
             StartCoroutine(DeleteBossCall());
         }
     }
+
+    public void EnemyAtk()
+    {
+        //for checking if there is any normal mob left in the scene
+        if (enemies.Any())
+        {
+            enemies[0].GetComponent<Enemy>().playAtkAni();
+        }
+        //if is boss attack do it here
+        if (enemyHP == 0 && isBossSpawn)
+        {
+            currBoss.GetComponent<Enemy>().playAtkAni();
+        }
+    }
+
     IEnumerator DeleteMobCall()
     {
         yield return new WaitForSeconds(sec);
@@ -193,7 +210,7 @@ public class Enemy : MonoBehaviour
     {
         animator.SetBool("Die", true);
     }
-    public void playAtkAni()
+    private void playAtkAni()
     {
         animator.SetBool("Attack", true);
     }

@@ -7,6 +7,10 @@ TagManager:
   - PlayerSpawnPoint
   - Enemy
   - EnemyHandler
+  - EnemyBoss
+  - EnemyMob
+  - PlayerHandler
+  - Background
   layers:
   - Default
   - TransparentFX

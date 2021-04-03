@@ -1,0 +1,6 @@
+1
+1
+5
+//world bg
+//which boss sprite
+//boss hp(must be lesser than or equal the amount of MCQ)
