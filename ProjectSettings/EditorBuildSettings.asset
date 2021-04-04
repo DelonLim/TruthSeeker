@@ -29,4 +29,46 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/World 1.unity
     guid: 6b69b9f24b2142d4bbb207de526f2d2e
+  - enabled: 1
+    path: Assets/Scenes/AdminMenu.unity
+    guid: 145c5b4b308f1df48a66f5b7b8b9d628
+  - enabled: 1
+    path: Assets/Scenes/AssignmentCreation.unity
+    guid: 50eabb818b8b05346837aaf7eda20aff
+  - enabled: 1
+    path: Assets/Scenes/CommunityMode.unity
+    guid: ea9370c93a0649c4da6bab8f6588dcc7
+  - enabled: 1
+    path: Assets/Scenes/GameManagement.unity
+    guid: 6a9fa559ab8dc204c90daf0e18c07439
+  - enabled: 1
+    path: Assets/Scenes/GameSetup.unity
+    guid: 4a977f8526ad6c74d82fa0342d6b5a42
+  - enabled: 1
+    path: Assets/Scenes/PostAssignmentCreation.unity
+    guid: 812c20ce46928f94683a222371b342a2
+  - enabled: 1
+    path: Assets/Scenes/PostGameManagement.unity
+    guid: 8e9b107a496b540409a06126555283bf
+  - enabled: 1
+    path: Assets/Scenes/PostQuizCreation.unity
+    guid: 85f6935fbea66484f9eb9e7cbce73a0b
+  - enabled: 1
+    path: Assets/Scenes/PostResultAnalysis.unity
+    guid: 00dd2cae579c56c48a6c5872c65c9d53
+  - enabled: 1
+    path: Assets/Scenes/PostStudentAccountManagement.unity
+    guid: 34c2169478f346243b8ef34b9d1a7767
+  - enabled: 1
+    path: Assets/Scenes/QuizCreation.unity
+    guid: 03748c255e4d349469a16f1d27c48842
+  - enabled: 1
+    path: Assets/Scenes/ResultAnalysis.unity
+    guid: a8b34ebc89be06a4ea465659ea4d423a
+  - enabled: 1
+    path: Assets/Scenes/StudentAccountManagement.unity
+    guid: 5bd57354e72fab944be7f3371aadc9d2
+  - enabled: 1
+    path: Assets/Scenes/WorldCreation.unity
+    guid: 4d45fc54b9804cb48bf598e89c37dbe5
   m_configObjects: {}
