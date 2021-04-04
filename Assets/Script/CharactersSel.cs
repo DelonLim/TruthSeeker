@@ -10,9 +10,10 @@ public class CharactersSel : MonoBehaviour
     ToggleGroup toogleGroupInstance;
     static int CharactersInt = 0;
     public Button ConfirmBtn;
+    public GameObject Warrior, Magician, Knight, Thief;
 
     private GameObject spawnPos;
-    public GameObject Warrior, Magician, Knight, Thief;
+    
 
 
     public Toggle currentSelection
@@ -78,9 +79,8 @@ public class CharactersSel : MonoBehaviour
         if (sceneName == "CharacterSelection")
         {
             SelectedChar();
-            Debug.Log("Hello");
         }
-        loadlevel("WorldSelection");
+        loadlevel("SelectGameMode");
     }
 
     void CreateChar()

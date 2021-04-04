@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using TMPro;
 
 public class GameHandler : MonoBehaviour
 {
@@ -12,15 +13,16 @@ public class GameHandler : MonoBehaviour
     private int bossHP = 1;
     public List<GameObject> BG;
     public List<GameObject> EnemyBoss;
+    public TMP_Text timerDisplay;
 
     private GameObject enemyHandler, gameHandler, player;
     private bool Ans1Sel = false, Ans2Sel = false, Ans3Sel = false, Ans4Sel = false, isGameEnd = false, isPlayerDead =
         false;
     private float sec = 2.0f;
     private List<string> currMCQs;
-    private int score = 0;
-    private float timeAtkMode = 20.0f;
-    
+    private int score = 0, gameMode = 0;
+    private float timeAtkMode = 5.0f;
+    private bool timeUP = false;
     //public GameObject GameManager;
     // Start is called before the first frame update
     void Start()
@@ -28,9 +30,13 @@ public class GameHandler : MonoBehaviour
         setWorldStr();
         SetupWorld();
 
+        timeUP = false;
+
         gameHandler = GameObject.FindWithTag("GameController");
         enemyHandler = GameObject.FindWithTag("EnemyHandler");
         player = GameObject.FindWithTag("Player");
+
+        gameMode = 1; //gameHandler.GetComponent<ModeSelection>().getMode();
 
         Alert.SetActive(false);
         Clear_Msg.SetActive(false);
@@ -52,7 +58,29 @@ public class GameHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (gameMode == 1)
+        {
+            float seconds = Mathf.FloorToInt(timeAtkMode % 60);
+            timerDisplay.text = string.Format("{0:00}:{1:00}", "0", seconds);
+            if (!timeUP)
+            {
+                if (timeAtkMode > 0)
+                {
+                    timeAtkMode -= Time.deltaTime;
+                }
+                else
+                {
+                    Debug.Log("Time has run out!");
+                    timeAtkMode = 0;
+                    timeUP = true;
+                    gameHandler.GetComponent<ReadMCQ>().saveWrongQns(currMCQs);
+                    player.GetComponent<PlayerCharacter>().deductHP();
+                    enemyHandler.GetComponent<Enemy>().EnemyAtk();
+                    MCQ_UI.SetActive(false);
+                    StartCoroutine(DisplayCall());
+                }
+            }
+        }
     }
     private void setWorldStr()
     {
@@ -86,7 +114,7 @@ public class GameHandler : MonoBehaviour
         if(worldSetup[0] == "1")
         {
             Debug.Log("");
-            Instantiate(BG[6], new Vector3(0, 0, 0), Quaternion.identity);
+            Instantiate(BG[8], new Vector3(0, 0, 0), Quaternion.identity);
         }
     }
     void SelectedAns1()
@@ -238,6 +266,8 @@ public class GameHandler : MonoBehaviour
         }else if (!isGameEnd)
         {
             MCQ_UI.SetActive(true);
+            timeUP = false;
+            timeAtkMode = 5.0f;
         }
     }
 }
