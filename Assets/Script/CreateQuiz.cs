@@ -130,6 +130,8 @@ public class CreateQuiz : MonoBehaviour
                 if (end == 1)
                 {
                     StartCoroutine(UploadTextFile());
+                    File.Delete("C:/xampp/tmp/" + UniqueCode + " Setup.csv");
+                    File.Delete("C:/xampp/tmp/" + UniqueCode + ".csv");
                     SceneManager.LoadScene("PostQuizCreation");
                 }
                 else
@@ -202,7 +204,7 @@ public class CreateQuiz : MonoBehaviour
 
     void CreateGameSetupTxt()
     {
-        string path = Application.dataPath + "/ " + UniqueCode + " Setup.csv";
+        string path = "C:/xampp/tmp/" + UniqueCode + " Setup.csv";
         string content = BG.ToString() + "\n" + Boss.ToString() + "\n" + BossHP.ToString();
         if (File.Exists(path))
         {
@@ -216,7 +218,7 @@ public class CreateQuiz : MonoBehaviour
 
     void CreateQuestionTxt()
     {
-        string path = Application.dataPath + "/ " + UniqueCode + ".csv";
+        string path = "C:/xampp/tmp/" + UniqueCode + ".csv";
         string one, two, three, four;
 
         if (ToggleOne.isOn)
@@ -267,9 +269,12 @@ public class CreateQuiz : MonoBehaviour
     IEnumerator UploadTextFile()
     {
         WWWForm form = new WWWForm();
-        form.AddField("name", DBManager.username);
+        form.AddField("WorldName", UniqueCode);
+        form.AddField("FileName", UniqueCode + ".csv");
+        form.AddField("WorldNameSetup", UniqueCode + " Setup");
+        form.AddField("FileNameSetup", UniqueCode + " Setup.csv");
 
-        WWW www = new WWW("http://localhost/truthseekers/textupload.php", form);
+        WWW www = new WWW("http://localhost/truthseekers/UploadFile.php", form);
         yield return www;
 
         if (www.text == "0")

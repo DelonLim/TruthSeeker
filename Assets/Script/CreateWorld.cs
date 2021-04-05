@@ -118,6 +118,8 @@ public class CreateWorld : MonoBehaviour
                 if (end == 1)
                 {
                     StartCoroutine(UploadTextFile());
+                    File.Delete("C:/xampp/tmp/" + WorldName + " Setup.csv");
+                    File.Delete("C:/xampp/tmp/" + WorldName + ".csv");
                     SceneManager.LoadScene("GameManagement");
                 }
                 else
@@ -190,7 +192,7 @@ public class CreateWorld : MonoBehaviour
 
     void CreateGameSetupTxt()
     {
-        string path = Application.dataPath + "/" + WorldName + " Setup.csv";
+        string path = "C:/xampp/tmp/" + WorldName + " Setup.csv";
         string content = BG.ToString() + "\n" + Boss.ToString() + "\n" + BossHP.ToString();
         if (File.Exists(path))
         {
@@ -204,7 +206,7 @@ public class CreateWorld : MonoBehaviour
 
     void CreateQuestionTxt()
     {
-        string path = Application.dataPath + "/" + WorldName +  ".csv";
+        string path = "C:/xampp/tmp/" + WorldName +  ".csv";
         string one, two, three, four;
 
         if (ToggleOne.isOn)
@@ -256,9 +258,12 @@ public class CreateWorld : MonoBehaviour
     IEnumerator UploadTextFile()
     {
         WWWForm form = new WWWForm();
-        form.AddField("name", DBManager.username);
+        form.AddField("WorldName", WorldName);
+        form.AddField("FileName", WorldName + ".csv");
+        form.AddField("WorldNameSetup", WorldName + " Setup");
+        form.AddField("FileNameSetup", WorldName + " Setup.csv");
 
-        WWW www = new WWW("http://localhost/truthseekers/textupload.php", form);
+        WWW www = new WWW("http://localhost/truthseekers/UploadFile.php", form);
         yield return www;
 
         if (www.text == "0")
@@ -272,6 +277,7 @@ public class CreateWorld : MonoBehaviour
         DBManager.LogOut();
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
+
     // Update is called once per frame
     void Update()
     {
