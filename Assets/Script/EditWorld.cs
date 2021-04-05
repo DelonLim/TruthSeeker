@@ -15,10 +15,13 @@ public class EditWorld : MonoBehaviour
     public Toggle ToggleOne, ToggleTwo, ToggleThree, ToggleFour;
     string WorldName = "", actualpath;
     int BossHP, Boss, BG, QCount = 0, end = 0, NextStart = 0, once = 0,NumQuest =0;
+    string[] inText;
     // Start is called before the first frame update
     void Start()
     {
         actualpath = Application.dataPath + "/" + WorldName + ".txt";
+        inText = File.ReadAllLines(actualpath);
+        NumQuest = (inText.Length + 1) / 9;
         loadFile();
     }
 
@@ -128,19 +131,18 @@ public class EditWorld : MonoBehaviour
             case "Confirm":
 
 
-                if ((NextStart / 9 )< NumQuest)
+                if ((NextStart / 9 ) < NumQuest)
                 {
                     SetPopoutState("Ok");
-                    PanelText.text = "Save   in   Textfile";
+                    PanelText.text = "Changes   Updated!";
                     CreateQuestionTxt();
                     loadFile();
                 }
                 else 
                 {
                     SetPopoutState("Ok");
-                    PanelText.text = "Save   in   Textfile";
+                    PanelText.text = "Adding   new   questions";
                     setInitialState();
-
                 }
 
 
@@ -262,9 +264,7 @@ public class EditWorld : MonoBehaviour
     }
 
     void loadFile()
-    {
-        string[] inText = File.ReadAllLines(actualpath);
-        NumQuest = (inText.Length + 1)/9 ;
+    {          
         QuestionTextBox.text = inText[NextStart];
         AnsOneTextBox.text = inText[NextStart + 1];
         AnsTwoTextBox.text = inText[NextStart + 3];
