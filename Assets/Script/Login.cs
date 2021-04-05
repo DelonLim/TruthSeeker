@@ -24,26 +24,23 @@ public class Login : MonoBehaviour
 
         if (www.text[0] == '0')
         {
-            if (nameField.text == "admin"){
-                UnityEngine.SceneManagement.SceneManager.LoadScene(8);
+            DBManager.score = int.Parse(www.text.Split('\t')[1]);
+
+            if (nameField.text != "realadmin")
+            {
+                SceneManager.LoadScene(1);
             }
-            else {
-                DBManager.username = nameField.text;
-                DBManager.score = int.Parse(www.text.Split('\t')[1]);
-                UnityEngine.SceneManagement.SceneManager.LoadScene(5);
-                }
+            else
+            {
+    public void GoToMenu() {
+        if (nameField.text != "realadmin")
+        {
+            SceneManager.LoadScene(1);
         }
         else 
         {
-            Debug.Log("User login failed. Error #" + www.text);
+            SceneManager.LoadScene(8);
         }
-    }
-
-    public void VerifyInputs() {
-        submitButton.interactable = (nameField.text.Length >= 5 && passwordField.text.Length >= 8);
-    }
-
-    public void GoToMenu() {
-        SceneManager.LoadScene(1);
+        
     }
 }
