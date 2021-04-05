@@ -131,22 +131,26 @@ public class EditWorld : MonoBehaviour
             case "Confirm":
 
 
-                if ((NextStart / 9 ) < NumQuest)
+                if ((NextStart / 9) < NumQuest)
                 {
                     SetPopoutState("Ok");
                     PanelText.text = "Changes   Updated!";
                     CreateQuestionTxt();
                     loadFile();
                 }
-                else 
+                else if ((NextStart / 9) == NumQuest)
                 {
                     SetPopoutState("Ok");
-                    PanelText.text = "Adding   new   questions";
+                    PanelText.text = "Changes   Updated!,   Adding   New   Question   Now.";
+                    CreateQuestionTxt();
                     setInitialState();
                 }
-
-
-
+                else
+                {
+                    SetPopoutState("Ok");
+                    PanelText.text = "Adding   new   questions.";
+                    setInitialState();
+                }
                 break;
         }
     }
@@ -251,7 +255,7 @@ public class EditWorld : MonoBehaviour
 
 
 
-        if (File.Exists(path) && once !=1)
+        if (File.Exists(path) && once == 1)
         {
             File.AppendAllText(path, content);
         }
@@ -270,40 +274,40 @@ public class EditWorld : MonoBehaviour
         AnsTwoTextBox.text = inText[NextStart + 3];
         AnsThreeTextBox.text = inText[NextStart + 5];
         AnsFourTextBox.text = inText[NextStart + 7];
-
+        /*
         if (inText[NextStart + 2] == "T")
         {
-            ToggleOne.isOn = true;
+            ToggleOne.SetIsOnWithoutNotify(true);
         }
         else 
         {
-            ToggleOne.isOn = false;
+            ToggleOne.SetIsOnWithoutNotify(false);
         }
         if (inText[NextStart + 4] == "T")
         {
-            ToggleTwo.isOn = true;
+            ToggleTwo.SetIsOnWithoutNotify(true);
         }
         else
         {
-            ToggleTwo.isOn = false;
+            ToggleTwo.SetIsOnWithoutNotify(false);
         }
         if (inText[NextStart + 6] == "T")
         {
-            ToggleThree.isOn = true;
+            ToggleThree.SetIsOnWithoutNotify(true);
         }
         else
         {
-            ToggleThree.isOn = false;
+            ToggleThree.SetIsOnWithoutNotify(false);
         }
         if (inText[NextStart + 8] == "T")
         {
-            ToggleFour.isOn = true;
+            ToggleFour.SetIsOnWithoutNotify(true);
         }
         else 
         {
-            ToggleFour.isOn = false;
+            ToggleFour.SetIsOnWithoutNotify(false);
         }
-
+        */
         NextStart = NextStart + 9;
 
     }

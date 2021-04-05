@@ -39,6 +39,14 @@ public class Login : MonoBehaviour
     }
 
     public void GoToMenu() {
-        SceneManager.LoadScene(1);
+        if (nameField.text != "admin")
+        {
+            SceneManager.LoadScene(1);
+        }
+        else 
+        {
+            SceneManager.LoadScene(8);
+        }
+        
     }
 }
