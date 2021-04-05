@@ -24,9 +24,14 @@ public class Login : MonoBehaviour
 
         if (www.text[0] == '0')
         {
-            DBManager.username = nameField.text;
-            DBManager.score = int.Parse(www.text.Split('\t')[1]);
-            UnityEngine.SceneManagement.SceneManager.LoadScene(5);
+            if (nameField.text == "admin"){
+                UnityEngine.SceneManagement.SceneManager.LoadScene(8);
+            }
+            else {
+                DBManager.username = nameField.text;
+                DBManager.score = int.Parse(www.text.Split('\t')[1]);
+                UnityEngine.SceneManagement.SceneManager.LoadScene(5);
+                }
         }
         else 
         {
@@ -35,7 +40,7 @@ public class Login : MonoBehaviour
     }
 
     public void VerifyInputs() {
-        submitButton.interactable = (nameField.text.Length >= 8 && passwordField.text.Length >= 8);
+        submitButton.interactable = (nameField.text.Length >= 5 && passwordField.text.Length >= 8);
     }
 
     public void GoToMenu() {

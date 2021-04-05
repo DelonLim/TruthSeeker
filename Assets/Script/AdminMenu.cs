@@ -50,7 +50,10 @@ public class AdminMenu : MonoBehaviour
                 SceneManager.LoadScene("GameSetup");
                 break;
             case "Logout":
+                DBManager.LogOut();
                 SceneManager.LoadScene("MainMenu");
+                Debug.Log("Logged out Succesfully.");
+
                 break;
         }
     }

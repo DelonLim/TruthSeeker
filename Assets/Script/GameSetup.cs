@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -144,7 +144,9 @@ public class GameSetup : MonoBehaviour
                 }
                 else 
                 {
+
                     SetPopoutState("Confirm");
+                    StartCoroutine(UploadTextFile());
                     PanelText.text = "Create   " + checkTextbox1 + "   with   " + BGDropdown.options[BGDropdown.value].text + "   and   " + BossDropdown.options[BossDropdown.value].text + "   ?";
                 }
                 break;
@@ -197,6 +199,25 @@ public class GameSetup : MonoBehaviour
                 BackButton.interactable = true;
                 break;
         }
+    }
+     IEnumerator UploadTextFile() 
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("name", DBManager.username);
+
+        WWW www = new WWW("http://localhost/truthseekers/textupload.php", form);
+        yield return www;
+
+        if (www.text == "0")
+        {
+            Debug.Log("Text file uploaded.");
+        }
+        else
+        {
+            Debug.Log("File upload failed. Error #" + www.text);
+        }
+        DBManager.LogOut();
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 
     void OnDisable()
