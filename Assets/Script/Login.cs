@@ -32,7 +32,20 @@ public class Login : MonoBehaviour
             }
             else
             {
-    public void GoToMenu() {
+                SceneManager.LoadScene(8);
+            }
+        }
+        else
+        {
+            Debug.Log("User login failed. Error #" + www.text);
+        }
+    }
+    public void VerifyInputs()
+        {
+            submitButton.interactable = (nameField.text.Length >= 8 && passwordField.text.Length >= 8);
+        }
+
+        public void GoToMenu() {
         if (nameField.text != "realadmin")
         {
             SceneManager.LoadScene(1);

@@ -191,6 +191,9 @@ public class EditWorldSetup : MonoBehaviour
 
     void loadFile(string actualpath)
     {
+        //string tempText = File.ReadAllText(actualpath);
+        //string[] inText = tempText.Split("\n"[0]);
+
         string[] inText = File.ReadAllLines(actualpath);
 
         WorldNameTextbox.text = path;
@@ -205,7 +208,7 @@ public class EditWorldSetup : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        string actualpath = Application.dataPath + "/" + path + " Setup.txt";
+        string actualpath = Application.dataPath + "/" + path + " Setup.csv";
         loadFile(actualpath);
     }
 

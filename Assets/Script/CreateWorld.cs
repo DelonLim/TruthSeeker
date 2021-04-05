@@ -117,6 +117,7 @@ public class CreateWorld : MonoBehaviour
             case "Ok":
                 if (end == 1)
                 {
+                    StartCoroutine(UploadTextFile());
                     SceneManager.LoadScene("GameManagement");
                 }
                 else
@@ -189,7 +190,7 @@ public class CreateWorld : MonoBehaviour
 
     void CreateGameSetupTxt()
     {
-        string path = Application.dataPath + "/" + WorldName + " Setup.txt";
+        string path = Application.dataPath + "/" + WorldName + " Setup.csv";
         string content = BG.ToString() + "\n" + Boss.ToString() + "\n" + BossHP.ToString();
         if (File.Exists(path))
         {
@@ -203,7 +204,7 @@ public class CreateWorld : MonoBehaviour
 
     void CreateQuestionTxt()
     {
-        string path = Application.dataPath + "/" + WorldName +  ".txt";
+        string path = Application.dataPath + "/" + WorldName +  ".csv";
         string one, two, three, four;
 
         if (ToggleOne.isOn)
@@ -250,6 +251,26 @@ public class CreateWorld : MonoBehaviour
             File.WriteAllText(path, content);
         }
 
+    }
+
+    IEnumerator UploadTextFile()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("name", DBManager.username);
+
+        WWW www = new WWW("http://localhost/truthseekers/textupload.php", form);
+        yield return www;
+
+        if (www.text == "0")
+        {
+            Debug.Log("Text file uploaded.");
+        }
+        else
+        {
+            Debug.Log("File upload failed. Error #" + www.text);
+        }
+        DBManager.LogOut();
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
     // Update is called once per frame
     void Update()
