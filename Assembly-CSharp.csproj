@@ -36,11 +36,6 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\DBManager.cs" />
-     <Compile Include="Assets\Game.cs" />
-     <Compile Include="Assets\Login.cs" />
-     <Compile Include="Assets\MainMenu.cs" />
-     <Compile Include="Assets\Registration.cs" />
      <Compile Include="Assets\Resources\SPUM\Scene\Sample\Script\PlayerManager.cs" />
      <Compile Include="Assets\Resources\SPUM\Scene\Sample\Script\PlayerObj.cs" />
      <Compile Include="Assets\Resources\SPUM\Script\Ect\SpritePos.cs" />
@@ -60,11 +55,15 @@
      <Compile Include="Assets\Script\CreateAssignment.cs" />
      <Compile Include="Assets\Script\CreateQuiz.cs" />
      <Compile Include="Assets\Script\CreateWorld.cs" />
+     <Compile Include="Assets\Script\DBManager.cs" />
      <Compile Include="Assets\Script\Enemy.cs" />
      <Compile Include="Assets\Script\EnemySpawn.cs" />
+     <Compile Include="Assets\Script\Game.cs" />
      <Compile Include="Assets\Script\GameHandler.cs" />
      <Compile Include="Assets\Script\GameManagement.cs" />
      <Compile Include="Assets\Script\GameSetup.cs" />
+     <Compile Include="Assets\Script\Login.cs" />
+     <Compile Include="Assets\Script\MainMenu.cs" />
      <Compile Include="Assets\Script\MenuMusic.cs" />
      <Compile Include="Assets\Script\ModeSelection.cs" />
      <Compile Include="Assets\Script\PlayerCharacter.cs" />
@@ -74,12 +73,14 @@
      <Compile Include="Assets\Script\PostResultAnalysis.cs" />
      <Compile Include="Assets\Script\PostStudentAccountManagement.cs" />
      <Compile Include="Assets\Script\ReadMCQ.cs" />
+     <Compile Include="Assets\Script\Registration.cs" />
      <Compile Include="Assets\Script\ResultAnalysis.cs" />
      <Compile Include="Assets\Script\StudentAccountManagement.cs" />
+     <Compile Include="Assets\Script\TabBetween.cs" />
      <Compile Include="Assets\Script\TextBG.cs" />
      <Compile Include="Assets\Script\Wait.cs" />
+     <Compile Include="Assets\Script\WebTest.cs" />
      <Compile Include="Assets\Script\WorldSelected.cs" />
-     <Compile Include="Assets\TabBetween.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
@@ -114,7 +115,6 @@
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
-     <Compile Include="Assets\WebTest.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

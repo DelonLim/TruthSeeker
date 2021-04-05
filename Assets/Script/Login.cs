@@ -24,7 +24,7 @@ public class Login : MonoBehaviour
         {
             DBManager.username = nameField.text;
             DBManager.score = int.Parse(www.text.Split('\t')[1]);
-            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(5);
         }
         else 
         {
