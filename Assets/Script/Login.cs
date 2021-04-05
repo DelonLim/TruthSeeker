@@ -26,7 +26,17 @@ public class Login : MonoBehaviour
         {
             DBManager.username = nameField.text;
             DBManager.score = int.Parse(www.text.Split('\t')[1]);
-            UnityEngine.SceneManagement.SceneManager.LoadScene(5);
+
+            if (nameField.text != "realadmin")
+            {
+                SceneManager.LoadScene(1);
+            }
+            else
+            {
+                SceneManager.LoadScene(8);
+            }
+
+            //UnityEngine.SceneManagement.SceneManager.LoadScene(5);
         }
         else 
         {
@@ -39,7 +49,7 @@ public class Login : MonoBehaviour
     }
 
     public void GoToMenu() {
-        if (nameField.text != "admin")
+        if (nameField.text != "realadmin")
         {
             SceneManager.LoadScene(1);
         }

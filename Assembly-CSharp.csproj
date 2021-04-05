@@ -110,7 +110,9 @@
     <Compile Include="Assets\Script\TextBG.cs" />
     <Compile Include="Assets\Script\Wait.cs" />
     <Compile Include="Assets\Script\WebTest.cs" />
+    <Compile Include="Assets\Script\WorldQuestionScoreRow.cs" />
     <Compile Include="Assets\Script\WorldSelected.cs" />
+    <Compile Include="Assets\Script\WorldTimeScoreRows.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
