@@ -31,7 +31,7 @@ public class CommunityMode : MonoBehaviour
             case "Back":
                 if (mode == 0)
                 {
-                    SceneManager.LoadScene("StudentMenu");
+                    SceneManager.LoadScene("MainMenu");
                 }
                 else if (mode == 1)
                 {
@@ -51,7 +51,7 @@ public class CommunityMode : MonoBehaviour
                 }
                 else if (mode == 1)
                 {
-                    string path = "/" + CodeTextbox.text;
+                    string path = Application.dataPath + "/" + CodeTextbox.text +".txt";
 
 
                     if (File.Exists(path))

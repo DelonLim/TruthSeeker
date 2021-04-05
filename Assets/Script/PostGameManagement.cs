@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class PostGameManagement : MonoBehaviour
 {
@@ -17,7 +18,11 @@ public class PostGameManagement : MonoBehaviour
     {
         
     }
-
+    private void OnDisable()
+    {
+        string path = WorldSelDropdown.options[WorldSelDropdown.value].text;
+        PlayerPrefs.SetString("path", path);
+    }
     private void OnEnable()
     {
         Selection = PlayerPrefs.GetString("Selection");
@@ -55,13 +60,21 @@ public class PostGameManagement : MonoBehaviour
                 switch (Selection)
                 {
                     case "Edit":
-                        Debug.Log("Link to Edit");
+                        if (checkforFile())
+                        {
+                            SceneManager.LoadScene("EditWorldSetup");
+                        }
+                        else
+                        {
+                            SetPopoutState("Ok");
+                            check = 1;
+                            PanelText.text = "Unable   to   Load   World,   please   try   a   different   world.";
+                        }
+
                         break;
                     case "Delete":
-                        PopoutGroup.gameObject.SetActive(true);
+                        SetPopoutState("Close");
                         PanelText.text = WorldSelDropdown.options[WorldSelDropdown.value].text + "   Deletion   Confirmation";
-                        ConfirmButton.gameObject.SetActive(true);
-                        CancelButton.gameObject.SetActive(true);
                         break;
                 }
                 break;
@@ -81,15 +94,45 @@ public class PostGameManagement : MonoBehaviour
                 break;
             case "Confirm":
                 PanelText.text = "World   Successfully   Deleted!!";
-                ConfirmButton.gameObject.SetActive(false);
-                CancelButton.gameObject.SetActive(false);
-                OkButton.gameObject.SetActive(true);
+                check = 0;
+                SetPopoutState("Ok");
                 break;
             case "Cancel":
                 PopoutGroup.gameObject.SetActive(false);
                 break;
         }
     }
+
+    bool checkforFile()
+    {
+        string path = Application.dataPath + "/" + WorldSelDropdown.options[WorldSelDropdown.value].text + ".txt";
+        string path2 = Application.dataPath + "/" + WorldSelDropdown.options[WorldSelDropdown.value].text+" Setup.txt";
+
+        return (File.Exists(path)&& File.Exists(path2));
+    }
+
+    void SetPopoutState(string Style)
+    {
+        switch (Style)
+        {
+            case "Ok":
+                PopoutGroup.gameObject.SetActive(true);
+                ConfirmButton.gameObject.SetActive(false);
+                CancelButton.gameObject.SetActive(false);
+                OkButton.gameObject.SetActive(true);
+                break;
+            case "Confirm":
+                PopoutGroup.gameObject.SetActive(true);
+                ConfirmButton.gameObject.SetActive(true);
+                CancelButton.gameObject.SetActive(true);
+                OkButton.gameObject.SetActive(false);
+                break;
+            case "Close":
+                PopoutGroup.gameObject.SetActive(false);
+                break;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {

@@ -26,7 +26,7 @@ public class PostCreateQuiz : MonoBehaviour
         switch (pressed)
         {
             case "Menu":
-                SceneManager.LoadScene("AdminMenu");
+                SceneManager.LoadScene("MainMenu");
                 break;
             case "Share":
                 Debug.Log("Online Sharing");

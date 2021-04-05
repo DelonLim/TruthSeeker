@@ -74,4 +74,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SelectGameMode.unity
     guid: adf20b0c8dd1f954fade5241738fe307
+  - enabled: 1
+    path: Assets/Scenes/EditWorldSetup.unity
+    guid: 7438347d66b66fe4d9aa8334c6e365ac
+  - enabled: 1
+    path: Assets/Scenes/EditWorld.unity
+    guid: ec1afd4a93808e84ab216bb520c77bf2
   m_configObjects: {}
