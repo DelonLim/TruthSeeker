@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class Login : MonoBehaviour
 {
@@ -34,5 +36,9 @@ public class Login : MonoBehaviour
 
     public void VerifyInputs() {
         submitButton.interactable = (nameField.text.Length >= 8 && passwordField.text.Length >= 8);
+    }
+
+    public void GoToMenu() {
+        SceneManager.LoadScene(1);
     }
 }
