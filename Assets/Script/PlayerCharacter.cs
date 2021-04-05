@@ -39,6 +39,11 @@ public class PlayerCharacter : MonoBehaviour
             
         }
     }
+    public int getHP()
+    {
+        return HP;
+    }
+
     private void playDeathAni()
     {
         animator.SetBool("Die", true);

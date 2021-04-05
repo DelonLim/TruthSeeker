@@ -175,7 +175,7 @@ public class Enemy : MonoBehaviour
             enemies[0].GetComponent<Enemy>().playAtkAni();
         }
         //if is boss attack do it here
-        if (enemyHP == 0 && isBossSpawn)
+        if (enemyHP != 0 && isBossSpawn)
         {
             currBoss.GetComponent<Enemy>().playAtkAni();
         }

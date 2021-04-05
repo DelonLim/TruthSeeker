@@ -7,20 +7,21 @@ using TMPro;
 
 public class GameHandler : MonoBehaviour
 {
-    public GameObject Alert, MCQ_UI, Clear_Msg, GameOver_MSG;
+    public GameObject Alert, MCQ_UI, Clear_Msg, GameOver_MSG, TimerBG;
     public Button Ans1, Ans2, Ans3, Ans4, cfmbtn;
     public string[] worldSetup;
     private int bossHP = 1;
     public List<GameObject> BG;
     public List<GameObject> EnemyBoss;
-    public TMP_Text timerDisplay;
+    public List<TMP_Text> topTextDisplay;
 
     private GameObject enemyHandler, gameHandler, player;
     private bool Ans1Sel = false, Ans2Sel = false, Ans3Sel = false, Ans4Sel = false, isGameEnd = false, isPlayerDead =
         false;
     private float sec = 2.0f;
     private List<string> currMCQs;
-    private int score = 0, gameMode = 0;
+    private string HP;
+    private int score = 0, gameMode = 0, HPRemain = 0;
     private float timeAtkMode = 5.0f;
     private bool timeUP = false;
     //public GameObject GameManager;
@@ -36,23 +37,60 @@ public class GameHandler : MonoBehaviour
         enemyHandler = GameObject.FindWithTag("EnemyHandler");
         player = GameObject.FindWithTag("Player");
 
-        gameMode = 1; //gameHandler.GetComponent<ModeSelection>().getMode();
+        gameMode = 2;//gameHandler.GetComponent<ModeSelection>().getMode();
+
+        if(gameMode == 2)
+        {
+            topTextDisplay[1].text = "Inverse";
+            TimerBG.SetActive(false);
+            Button btn = Ans1.GetComponent<Button>();
+            btn.onClick.AddListener(SelectedAns1Inverse);
+            Button btn2 = Ans2.GetComponent<Button>();
+            btn2.onClick.AddListener(SelectedAns2Inverse);
+            Button btn3 = Ans3.GetComponent<Button>();
+            btn3.onClick.AddListener(SelectedAns3Inverse);
+            Button btn4 = Ans4.GetComponent<Button>();
+            btn4.onClick.AddListener(SelectedAns4Inverse);
+
+            Button cfmbtn1 = cfmbtn.GetComponent<Button>();
+            cfmbtn1.onClick.AddListener(confirmAnsInverse);
+        }
+        else if(gameMode == 1)
+        {
+            topTextDisplay[1].text = "Time Attack";
+            Button btn = Ans1.GetComponent<Button>();
+            btn.onClick.AddListener(SelectedAns1);
+            Button btn2 = Ans2.GetComponent<Button>();
+            btn2.onClick.AddListener(SelectedAns2);
+            Button btn3 = Ans3.GetComponent<Button>();
+            btn3.onClick.AddListener(SelectedAns3);
+            Button btn4 = Ans4.GetComponent<Button>();
+            btn4.onClick.AddListener(SelectedAns4);
+
+            Button cfmbtn1 = cfmbtn.GetComponent<Button>();
+            cfmbtn1.onClick.AddListener(confirmAns);
+        }
+        else
+        {
+            topTextDisplay[1].text = "Normal";
+            TimerBG.SetActive(false);
+            Button btn = Ans1.GetComponent<Button>();
+            btn.onClick.AddListener(SelectedAns1);
+            Button btn2 = Ans2.GetComponent<Button>();
+            btn2.onClick.AddListener(SelectedAns2);
+            Button btn3 = Ans3.GetComponent<Button>();
+            btn3.onClick.AddListener(SelectedAns3);
+            Button btn4 = Ans4.GetComponent<Button>();
+            btn4.onClick.AddListener(SelectedAns4);
+
+            Button cfmbtn1 = cfmbtn.GetComponent<Button>();
+            cfmbtn1.onClick.AddListener(confirmAns);
+        }
 
         Alert.SetActive(false);
         Clear_Msg.SetActive(false);
         GameOver_MSG.SetActive(false);
-
-        Button btn = Ans1.GetComponent<Button>();
-        btn.onClick.AddListener(SelectedAns1);
-        Button btn2 = Ans2.GetComponent<Button>();
-        btn2.onClick.AddListener(SelectedAns2);
-        Button btn3 = Ans3.GetComponent<Button>();
-        btn3.onClick.AddListener(SelectedAns3);
-        Button btn4 = Ans4.GetComponent<Button>();
-        btn4.onClick.AddListener(SelectedAns4);
-
-        Button cfmbtn1 = cfmbtn.GetComponent<Button>();
-        cfmbtn1.onClick.AddListener(confirmAns);
+        
     }
 
     // Update is called once per frame
@@ -61,7 +99,7 @@ public class GameHandler : MonoBehaviour
         if (gameMode == 1)
         {
             float seconds = Mathf.FloorToInt(timeAtkMode % 60);
-            timerDisplay.text = string.Format("{0:00}:{1:00}", "0", seconds);
+            topTextDisplay[0].text = string.Format("{0:00}:{1:00}", "0", seconds);
             if (!timeUP)
             {
                 if (timeAtkMode > 0)
@@ -86,6 +124,17 @@ public class GameHandler : MonoBehaviour
     {
         string path = "Assets\\Resources\\WorldSetup.txt";
         worldSetup = System.IO.File.ReadAllLines(path);
+    }
+    public void getPlayerHPDisplay()
+    {
+        player = GameObject.FindWithTag("Player");
+        HP = player.GetComponent<PlayerCharacter>().getHP().ToString();
+        HPRemain = player.GetComponent<PlayerCharacter>().getHP();
+        topTextDisplay[2].text = "HP : " + HP + " / " + HP;
+    }
+    private void updateHP()
+    {
+        topTextDisplay[2].text = "HP : " + HPRemain.ToString() + " / " + HP;
     }
     public int getBossHP()
     {
@@ -162,7 +211,59 @@ public class GameHandler : MonoBehaviour
         Ans3.GetComponent<TextBG>().Unselectedbtn();
         Ans4.GetComponent<TextBG>().Selectedbtn();
     }
-
+    void SelectedAns1Inverse()
+    {
+        //Debug.Log("You have clicked the Ans1!");
+        if (Ans1Sel)
+        {
+            Ans1Sel = false;
+            Ans1.GetComponent<TextBG>().Unselectedbtn();
+        }
+        else
+        {
+            Ans1Sel = true;
+            Ans1.GetComponent<TextBG>().Selectedbtn();
+        }
+    }
+    void SelectedAns2Inverse()
+    {
+        if (Ans2Sel)
+        {
+            Ans2Sel = false;
+            Ans2.GetComponent<TextBG>().Unselectedbtn();
+        }
+        else
+        {
+            Ans2Sel = true;
+            Ans2.GetComponent<TextBG>().Selectedbtn();
+        }
+    }
+    void SelectedAns3Inverse()
+    {
+        if (Ans3Sel)
+        {
+            Ans3Sel = false;
+            Ans3.GetComponent<TextBG>().Unselectedbtn();
+        }
+        else
+        {
+            Ans3Sel = true;
+            Ans3.GetComponent<TextBG>().Selectedbtn();
+        }
+    }
+    void SelectedAns4Inverse()
+    {
+        if (Ans4Sel)
+        {
+            Ans4Sel = false;
+            Ans3.GetComponent<TextBG>().Unselectedbtn();
+        }
+        else
+        {
+            Ans4Sel = true;
+            Ans4.GetComponent<TextBG>().Selectedbtn();
+        }
+    }
     void confirmAns()
     {
         if(Ans1Sel || Ans2Sel || Ans3Sel || Ans4Sel)
@@ -177,6 +278,19 @@ public class GameHandler : MonoBehaviour
         }
     }
 
+    void confirmAnsInverse()
+    {
+        if (Ans1Sel || Ans2Sel || Ans3Sel || Ans4Sel)
+        {
+            checkAnsInverse();
+        }
+        else
+        {
+            Alert.SetActive(true);
+            StartCoroutine(LateCall());
+            Debug.Log("Please select one of the answer");
+        }
+    }
     IEnumerator LateCall()
     {
         yield return new WaitForSeconds(sec);
@@ -237,11 +351,68 @@ public class GameHandler : MonoBehaviour
             gameHandler.GetComponent<ReadMCQ>().saveWrongQns(currMCQs);
             player.GetComponent<PlayerCharacter>().deductHP();
             enemyHandler.GetComponent<Enemy>().EnemyAtk();
+            HPRemain--;
+            updateHP();
         }
         MCQ_UI.SetActive(false);
         StartCoroutine(DisplayCall());
     }
-
+    void checkAnsInverse()
+    {
+        if ((Ans1Sel && currMCQs[2] == "F") && (Ans2Sel && currMCQs[4] == "F") && (Ans3Sel && currMCQs[6] == "F") && (!Ans4Sel && currMCQs[8] == "T"))
+        {
+            //Debug.Log("Correct");
+            score++;
+            if (enemyHandler.GetComponent<Enemy>().isBossSpawn)
+            {
+                enemyHandler.GetComponent<Enemy>().deductHP(1);
+            }
+            enemyHandler.GetComponent<Enemy>().EnemyDeath();
+            player.GetComponent<PlayerCharacter>().playAtkAni();
+        }
+        else if ((Ans1Sel && currMCQs[2] == "F") && (Ans2Sel && currMCQs[4] == "F") && (Ans4Sel && currMCQs[8] == "F") && (!Ans3Sel && currMCQs[6] == "T"))
+        {
+            score++;
+            if (enemyHandler.GetComponent<Enemy>().isBossSpawn)
+            {
+                enemyHandler.GetComponent<Enemy>().deductHP(1);
+            }
+            enemyHandler.GetComponent<Enemy>().EnemyDeath();
+            player.GetComponent<PlayerCharacter>().playAtkAni();
+        }
+        else if ((Ans1Sel && currMCQs[2] == "F") && (Ans3Sel && currMCQs[6] == "F") && (Ans4Sel && currMCQs[8] == "F") && (!Ans2Sel && currMCQs[4] == "T"))
+        {
+            score++;
+            if (enemyHandler.GetComponent<Enemy>().isBossSpawn)
+            {
+                enemyHandler.GetComponent<Enemy>().deductHP(1);
+            }
+            enemyHandler.GetComponent<Enemy>().EnemyDeath();
+            player.GetComponent<PlayerCharacter>().playAtkAni();
+        }
+        else if ((Ans2Sel && currMCQs[4] == "F") && (Ans3Sel && currMCQs[6] == "F") && (Ans4Sel && currMCQs[8] == "F") && (!Ans1Sel && currMCQs[2] == "T"))
+        {
+            score++;
+            if (enemyHandler.GetComponent<Enemy>().isBossSpawn)
+            {
+                enemyHandler.GetComponent<Enemy>().deductHP(1);
+            }
+            enemyHandler.GetComponent<Enemy>().EnemyDeath();
+            player.GetComponent<PlayerCharacter>().playAtkAni();
+        }
+        else
+        {
+            Debug.Log("Incorrect");
+            //Save the questions and reuse the questions at the back
+            gameHandler.GetComponent<ReadMCQ>().saveWrongQns(currMCQs);
+            player.GetComponent<PlayerCharacter>().deductHP();
+            enemyHandler.GetComponent<Enemy>().EnemyAtk();
+            HPRemain--;
+            updateHP();
+        }
+        MCQ_UI.SetActive(false);
+        StartCoroutine(DisplayCall());
+    }
     public void setGameComplete()
     {
         isGameEnd = true;
@@ -265,6 +436,14 @@ public class GameHandler : MonoBehaviour
             //put method and go back to world selection
         }else if (!isGameEnd)
         {
+            Ans1Sel = false;
+            Ans2Sel = false;
+            Ans3Sel = false;
+            Ans4Sel = false;
+            Ans1.GetComponent<TextBG>().Unselectedbtn();
+            Ans2.GetComponent<TextBG>().Unselectedbtn();
+            Ans3.GetComponent<TextBG>().Unselectedbtn();
+            Ans4.GetComponent<TextBG>().Unselectedbtn();
             MCQ_UI.SetActive(true);
             timeUP = false;
             timeAtkMode = 5.0f;
