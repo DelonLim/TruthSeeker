@@ -35,7 +35,14 @@ public class Login : MonoBehaviour
             {
                 SceneManager.LoadScene(8);
             }
-    public void VerifyInputs()
+        }
+        else
+        {
+            Debug.Log("User login failed. Error #" + www.text);
+        }
+        }
+
+        public void VerifyInputs()
         {
             submitButton.interactable = (nameField.text.Length >= 8 && passwordField.text.Length >= 8);
         }
