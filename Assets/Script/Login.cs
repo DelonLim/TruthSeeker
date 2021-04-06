@@ -24,6 +24,7 @@ public class Login : MonoBehaviour
 
         if (www.text[0] == '0')
         {
+            DBManager.username = nameField.text;
             DBManager.score = int.Parse(www.text.Split('\t')[1]);
 
             if (nameField.text != "realadmin")
@@ -32,6 +33,21 @@ public class Login : MonoBehaviour
             }
             else
             {
+                SceneManager.LoadScene(8);
+            }
+
+            //UnityEngine.SceneManagement.SceneManager.LoadScene(5);
+        }
+        else 
+        {
+            Debug.Log("User login failed. Error #" + www.text);
+        }
+    }
+
+    public void VerifyInputs() {
+        submitButton.interactable = (nameField.text.Length >= 5 && passwordField.text.Length >= 8);
+    }
+
     public void GoToMenu() {
         if (nameField.text != "realadmin")
         {
