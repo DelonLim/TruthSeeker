@@ -10,6 +10,7 @@ public class CharactersSel : MonoBehaviour
     ToggleGroup toogleGroupInstance;
     static int CharactersInt = 0;
     public Button ConfirmBtn;
+    public Button CancelBtn;
     public GameObject Warrior, Magician, Knight, Thief;
 
     private GameObject spawnPos;
@@ -41,6 +42,12 @@ public class CharactersSel : MonoBehaviour
             spawnPos = GameObject.FindWithTag("PlayerSpawnPoint");
             CreateChar();
         }
+    }
+
+    public void LogOut() {
+        DBManager.LogOut();
+        Debug.Log("Logged out successfully.");
+        SceneManager.LoadScene(1);
     }
 
     public int getChar()
