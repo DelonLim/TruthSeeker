@@ -71,15 +71,16 @@ public class ModeSelection : MonoBehaviour
     void LoadAssignmentMode()
     {
         //go to assignment
+        SceneManager.LoadScene("Assignment");
     }
     void LoadCommunityMode()
     {
         //go to Community
+        SceneManager.LoadScene("CommunityMode");
     }
     void LoadCharSelect()
     {
         //go back to character selection
-
         SceneManager.LoadScene("CharacterSelection");
     }
 }

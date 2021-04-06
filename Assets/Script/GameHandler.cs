@@ -28,18 +28,10 @@ public class GameHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        timeUP = false;
+        
         setWorldStr();
         SetupWorld();
-
-        timeUP = false;
-        string[] world1234 = { "World 1", "World 2", "World 3", "World 4" };
-
-        for(int i = 0; i < 4; i++)
-        {
-            StartCoroutine(DownloadWorldSetup(world1234[i]));
-            StartCoroutine(DownloadWorldData(world1234[i])); 
-        }
-
         gameHandler = GameObject.FindWithTag("GameController");
         enemyHandler = GameObject.FindWithTag("EnemyHandler");
         player = GameObject.FindWithTag("Player");
@@ -117,7 +109,7 @@ public class GameHandler : MonoBehaviour
         timerUpload = string.Format("{0:00}:{1:00}", Tmin, TSec);
         //Debug.Log(timerUpload);
 
-        if (gameMode == 1 || isHarderMode)
+        if ((gameMode == 1 || isHarderMode) && !isGameEnd && !isPlayerDead)
         {
             float seconds = Mathf.FloorToInt(timeAtkMode % 60);
             topTextDisplay[0].text = string.Format("{0:00}:{1:00}", "0", seconds);
@@ -689,7 +681,19 @@ public class GameHandler : MonoBehaviour
     {
         StartCoroutine(SavePlayerData());
         isGameEnd = true;
+        deleteAllFiles();
         //Transfer current score and time to the server
+    }
+    public void deleteAllFiles()
+    {
+        File.Delete("C:/xampp/tmp/World 1.csv");
+        File.Delete("C:/xampp/tmp/World 1 Setup.csv");
+        File.Delete("C:/xampp/tmp/World 2.csv");
+        File.Delete("C:/xampp/tmp/World 2 Setup.csv");
+        File.Delete("C:/xampp/tmp/World 3.csv");
+        File.Delete("C:/xampp/tmp/World 3 Setup.csv");
+        File.Delete("C:/xampp/tmp/World 4.csv");
+        File.Delete("C:/xampp/tmp/World 4 Setup.csv");
     }
 
     IEnumerator SavePlayerData() 
@@ -717,6 +721,7 @@ public class GameHandler : MonoBehaviour
     {
         StartCoroutine(SavePlayerData());
         isPlayerDead = true;
+        deleteAllFiles();
     }
     IEnumerator DisplayCall()
     {
@@ -746,58 +751,4 @@ public class GameHandler : MonoBehaviour
         }
     }
     
-    IEnumerator DownloadWorldSetup(string worldArray)
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("WorldName", worldArray);
-        WWW www = new WWW("http://localhost/truthseekers/DownloadWorldSetup.php", form);
-        yield return www;
-
-
-
-        string test1;
-        string[] test;
-
-        test1 = www.text;
-        test = test1.Split('\n');
-        string path = "C:/xampp/tmp/" + worldArray + " Setup.csv";
-
-        for (int x = 0; x < test.Length; x++)
-        {
-            if (File.Exists(path))
-            {
-                File.AppendAllText(path, test[x]);
-            }
-            else
-            {
-                File.WriteAllText(path, test[x]);
-            }
-        }
-    }
-
-    IEnumerator DownloadWorldData(string worldArray)
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("WorldName", worldArray);
-        WWW www = new WWW("http://localhost/truthseekers/DownloadWorldData.php", form);
-        yield return www;
-        string test1;
-        string[] test;
-
-        test1 = www.text;
-        test = test1.Split('\n');
-        string path = "C:/xampp/tmp/" + worldArray + ".csv";
-
-        for (int x = 0; x < test.Length; x++)
-        {
-            if (File.Exists(path))
-            {
-                File.AppendAllText(path, test[x]);
-            }
-            else
-            {
-                File.WriteAllText(path, test[x]);
-            }
-        }
-    }
 }

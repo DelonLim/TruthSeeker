@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class WorldSelected : MonoBehaviour
 {
     ToggleGroup toogleGroupInstance;
-    public Button ConfirmBtn;
+    public Button ConfirmBtn, backBtn;
     static string worldSel;
 
     public Toggle currentSelection
@@ -25,7 +26,18 @@ public class WorldSelected : MonoBehaviour
         {
             Button btn = ConfirmBtn.GetComponent<Button>();
             btn.onClick.AddListener(SelectedWorld);
+
+            Button bBtn = backBtn.GetComponent<Button>();
+            bBtn.onClick.AddListener(backChar);
             toogleGroupInstance = GetComponent<ToggleGroup>();
+
+            string[] world1234 = { "World 1", "World 2", "World 3", "World 4" };
+
+            for (int i = 0; i < 4; i++)
+            {
+                StartCoroutine(DownloadWorldSetup(world1234[i]));
+                StartCoroutine(DownloadWorldData(world1234[i]));
+            }
         }
         
     }
@@ -38,7 +50,17 @@ public class WorldSelected : MonoBehaviour
     {
         
     }
-
+    public void deleteAllFiles()
+    {
+        File.Delete("C:/xampp/tmp/World 1.csv");
+        File.Delete("C:/xampp/tmp/World 1 Setup.csv");
+        File.Delete("C:/xampp/tmp/World 2.csv");
+        File.Delete("C:/xampp/tmp/World 2 Setup.csv");
+        File.Delete("C:/xampp/tmp/World 3.csv");
+        File.Delete("C:/xampp/tmp/World 3 Setup.csv");
+        File.Delete("C:/xampp/tmp/World 4.csv");
+        File.Delete("C:/xampp/tmp/World 4 Setup.csv");
+    }
     //select world based on toggle
     //toggle interact is enable/disabled based on users progression
     public void SelectedWorld()
@@ -46,10 +68,67 @@ public class WorldSelected : MonoBehaviour
         worldSel = currentSelection.name;
         loadlevel("World 1");
     }
-
+    public void backChar()
+    {
+        deleteAllFiles();
+        loadlevel("SelectGameMode");
+    }
     public void loadlevel(string level)
     {
         SceneManager.LoadScene(level);
     }
+    IEnumerator DownloadWorldSetup(string worldArray)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("WorldName", worldArray);
+        WWW www = new WWW("http://localhost/truthseekers/DownloadWorldSetup.php", form);
+        yield return www;
 
+
+
+        string test1;
+        string[] test;
+
+        test1 = www.text;
+        test = test1.Split('\n');
+        string path = "C:/xampp/tmp/" + worldArray + " Setup.csv";
+
+        for (int x = 0; x < test.Length; x++)
+        {
+            if (File.Exists(path))
+            {
+                File.AppendAllText(path, test[x]);
+            }
+            else
+            {
+                File.WriteAllText(path, test[x]);
+            }
+        }
+    }
+
+    IEnumerator DownloadWorldData(string worldArray)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("WorldName", worldArray);
+        WWW www = new WWW("http://localhost/truthseekers/DownloadWorldData.php", form);
+        yield return www;
+        string test1;
+        string[] test;
+
+        test1 = www.text;
+        test = test1.Split('\n');
+        string path = "C:/xampp/tmp/" + worldArray + ".csv";
+
+        for (int x = 0; x < test.Length; x++)
+        {
+            if (File.Exists(path))
+            {
+                File.AppendAllText(path, test[x]);
+            }
+            else
+            {
+                File.WriteAllText(path, test[x]);
+            }
+        }
+    }
 }

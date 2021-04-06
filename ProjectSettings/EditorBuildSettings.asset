@@ -80,4 +80,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/EditWorld.unity
     guid: ec1afd4a93808e84ab216bb520c77bf2
+  - enabled: 1
+    path: Assets/Scenes/Assignment.unity
+    guid: 7fcc2db6911243e47a4e82ae237f18a9
   m_configObjects: {}
