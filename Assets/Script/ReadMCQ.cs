@@ -19,14 +19,14 @@ public class ReadMCQ : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
-        string path = "Assets\\Resources\\MCQ_dummyQuestions.txt";
-        AllQnsAns = System.IO.File.ReadAllLines(path);
-
         EnemyMCQ = GameObject.FindWithTag("EnemyHandler");
-        EnemyMCQ.GetComponent<Enemy>().countEnemy(AllQnsAns);
         gameHandler = GameObject.FindWithTag("GameController");
         playerHandler = GameObject.FindWithTag("Player");
+
+        string path = "C:/xampp/tmp/" + gameHandler.GetComponent<WorldSelected>().getWorldSel() + ".csv";
+        AllQnsAns = System.IO.File.ReadAllLines(path);
+
+        EnemyMCQ.GetComponent<Enemy>().countEnemy(AllQnsAns);
         playerHandler.GetComponent<PlayerCharacter>().setPlayerHP(AllQnsAns);
         gameHandler.GetComponent<GameHandler>().setPassingpoint(AllQnsAns.Length / 9);
         gameHandler.GetComponent<GameHandler>().getPlayerHPDisplay();

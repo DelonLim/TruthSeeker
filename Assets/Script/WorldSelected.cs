@@ -9,6 +9,7 @@ public class WorldSelected : MonoBehaviour
 {
     ToggleGroup toogleGroupInstance;
     public Button ConfirmBtn;
+    static string worldSel;
 
     public Toggle currentSelection
     {
@@ -17,11 +18,21 @@ public class WorldSelected : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Button btn = ConfirmBtn.GetComponent<Button>();
-        btn.onClick.AddListener(SelectedWorld);
-        toogleGroupInstance = GetComponent<ToggleGroup>();
-    }
+        Scene currentScene = SceneManager.GetActiveScene();
+        string sceneName = currentScene.name;
 
+        if (sceneName == "WorldSelection")
+        {
+            Button btn = ConfirmBtn.GetComponent<Button>();
+            btn.onClick.AddListener(SelectedWorld);
+            toogleGroupInstance = GetComponent<ToggleGroup>();
+        }
+        
+    }
+    public string getWorldSel()
+    {
+        return worldSel;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -32,7 +43,8 @@ public class WorldSelected : MonoBehaviour
     //toggle interact is enable/disabled based on users progression
     public void SelectedWorld()
     {
-        loadlevel(currentSelection.name);
+        worldSel = currentSelection.name;
+        loadlevel("World 1");
     }
 
     public void loadlevel(string level)

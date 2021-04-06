@@ -14,16 +14,16 @@ public class CharactersSel : MonoBehaviour
     public GameObject Warrior, Magician, Knight, Thief;
 
     private GameObject spawnPos;
-    
-
 
     public Toggle currentSelection
     {
         get { return toogleGroupInstance.ActiveToggles().FirstOrDefault(); }
     }
+
     // Start is called before the first frame update
     void Start()
     {
+
         Scene currentScene = SceneManager.GetActiveScene();
         string sceneName = currentScene.name;
 
@@ -36,8 +36,8 @@ public class CharactersSel : MonoBehaviour
         else if (sceneName == "WorldSelection")
         {
             
-        }
-        else
+        } 
+        else if (sceneName == "World 1")
         {
             spawnPos = GameObject.FindWithTag("PlayerSpawnPoint");
             CreateChar();
@@ -57,12 +57,11 @@ public class CharactersSel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     public void SelectedChar()
     {
-
         if (currentSelection.name == "Magician")
         {
             CharactersInt = 1;
@@ -86,6 +85,7 @@ public class CharactersSel : MonoBehaviour
     {
         Scene currentScene = SceneManager.GetActiveScene();
         string sceneName = currentScene.name;
+
         if (sceneName == "CharacterSelection")
         {
             SelectedChar();
