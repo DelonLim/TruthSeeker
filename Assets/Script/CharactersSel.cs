@@ -43,7 +43,10 @@ public class CharactersSel : MonoBehaviour
         }
     }
 
-
+    public int getChar()
+    {
+        return CharactersInt;
+    }
     // Update is called once per frame
     void Update()
     {

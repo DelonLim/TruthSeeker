@@ -30,7 +30,7 @@ public class ReadMCQ : MonoBehaviour
         playerHandler.GetComponent<PlayerCharacter>().setPlayerHP(AllQnsAns);
         gameHandler.GetComponent<GameHandler>().getPlayerHPDisplay();
         //Debug.Log(AllQnsAns.Length);
-        //each qns should hvae 9 lines 1st line qns follow by each answer and it's True False value
+        //each qns should have 9 lines 1st line qns follow by each answer and it's True False value
 
         PutinIndividual(AllQnsAns);
     }

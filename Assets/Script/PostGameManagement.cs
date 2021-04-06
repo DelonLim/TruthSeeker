@@ -11,12 +11,12 @@ public class PostGameManagement : MonoBehaviour
     public Text PostGMText, IntructionText, PanelText;
     public Dropdown WorldSelDropdown;
     public Image PopoutGroup;
-    string Selection;
+    string Selection, test;
     int check = 0;
     // Start is called before the first frame update
     void Start()
     {
-        
+        StartCoroutine(LoadDropdown());
     }
     private void OnDisable()
     {
@@ -130,6 +130,26 @@ public class PostGameManagement : MonoBehaviour
             case "Close":
                 PopoutGroup.gameObject.SetActive(false);
                 break;
+        }
+    }
+
+    IEnumerator LoadDropdown()
+    {
+        WWWForm form = new WWWForm();
+        WWW www = new WWW("http://localhost/truthseekers/DropDownLoad.php", form);
+        yield return www;
+
+        Debug.Log("Value is " + test);
+
+        if (www.text[0] == '0')
+        {
+            test = www.text.Split('\t')[1];
+            Debug.Log("Value is " + test);
+            
+        }
+        else
+        {
+            Debug.Log("Got Nothing");
         }
     }
 
