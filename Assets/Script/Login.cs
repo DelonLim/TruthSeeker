@@ -35,6 +35,8 @@ public class Login : MonoBehaviour
             {
                 SceneManager.LoadScene(8);
             }
+        }
+    }
     public void VerifyInputs()
         {
             submitButton.interactable = (nameField.text.Length >= 8 && passwordField.text.Length >= 8);
@@ -49,6 +51,6 @@ public class Login : MonoBehaviour
         {
             SceneManager.LoadScene(8);
         }
-        
-    }
+        }
+    
 }
