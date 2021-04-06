@@ -54,6 +54,8 @@ public class CreateQuiz : MonoBehaviour
 
     private void OnDisable()
     {
+        File.Delete("C:/xampp/tmp/" + UniqueCode + " Setup.csv");
+        File.Delete("C:/xampp/tmp/" + UniqueCode + ".csv");
         PlayerPrefs.SetString("code", UniqueCode);
     }
 
@@ -130,8 +132,7 @@ public class CreateQuiz : MonoBehaviour
                 if (end == 1)
                 {
                     StartCoroutine(UploadTextFile());
-                    File.Delete("C:/xampp/tmp/" + UniqueCode + " Setup.csv");
-                    File.Delete("C:/xampp/tmp/" + UniqueCode + ".csv");
+
                     SceneManager.LoadScene("PostQuizCreation");
                 }
                 else

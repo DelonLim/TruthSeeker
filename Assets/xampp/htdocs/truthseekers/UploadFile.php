@@ -17,7 +17,7 @@
 	$includeWorldNameSetupquery = "INSERT INTO `worldsetupdb`(`WorldName`, `TXTFile`) VALUES ('" .$WorldName."','')";
 
 
-	$includeWorldName = mysqli_query($con, $includeWorldNameSetupquery) or die("2: Fail to insert"); //error code #2 meaning namecheck query failed
+	$includeWorldNameSetup = mysqli_query($con, $includeWorldNameSetupquery) or die("2: Fail to insert"); //error code #2 meaning namecheck query failed
 
 
 	$updateSetupquery = "UPDATE `worldsetupdb` SET `TXTFile`=LOAD_FILE('C:/xampp/tmp/" .$FileName. "') WHERE `WorldName`='".$WorldName."';";

@@ -54,6 +54,8 @@ public class CreateAssignment : MonoBehaviour
 
     private void OnDisable()
     {
+        File.Delete("C:/xampp/tmp/" + WorldName + " " + UniqueCode + " Setup.csv");
+        File.Delete("C:/xampp/tmp/" + WorldName + " " + UniqueCode + ".csv");
         PlayerPrefs.SetString("code", UniqueCode);
     }
 
@@ -130,8 +132,7 @@ public class CreateAssignment : MonoBehaviour
                 if (end == 1)
                 {
                     StartCoroutine(UploadTextFile());
-                    File.Delete("C:/xampp/tmp/" + WorldName + " " + UniqueCode + " Setup.csv");
-                    File.Delete("C:/xampp/tmp/" + WorldName + " " + UniqueCode + ".csv");
+
                     SceneManager.LoadScene("PostAssignmentCreation");
                 }
                 else 

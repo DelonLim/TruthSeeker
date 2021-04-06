@@ -42,7 +42,8 @@ public class CreateWorld : MonoBehaviour
 
     private void OnDisable()
     {
-        
+        File.Delete("C:/xampp/tmp/" + WorldName + " Setup.csv");
+        File.Delete("C:/xampp/tmp/" + WorldName + ".csv");
     }
 
     void clicked(string pressed)
@@ -118,8 +119,7 @@ public class CreateWorld : MonoBehaviour
                 if (end == 1)
                 {
                     StartCoroutine(UploadTextFile());
-                    File.Delete("C:/xampp/tmp/" + WorldName + " Setup.csv");
-                    File.Delete("C:/xampp/tmp/" + WorldName + ".csv");
+
                     SceneManager.LoadScene("GameManagement");
                 }
                 else
