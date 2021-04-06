@@ -37,7 +37,8 @@ public class PostCreateQuiz : MonoBehaviour
                 SceneManager.LoadScene("MainMenu");
                 break;
             case "Share":
-                Debug.Log("Online Sharing");
+                string share_url = "https://boblight.github.io/?user=" + "1" + "&code=" + UniqueCode;
+                Application.OpenURL(share_url);
                 break;
         }
     }

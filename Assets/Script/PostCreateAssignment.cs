@@ -37,7 +37,8 @@ public class PostCreateAssignment : MonoBehaviour
                 SceneManager.LoadScene("AdminMenu");
                 break;
             case "Share":
-                Debug.Log("Online Sharing");
+                string share_url = "https://boblight.github.io/?user=" + "0" + "&code=" + UniqueCode;  
+                Application.OpenURL(share_url);
                 break;
         }
     }
