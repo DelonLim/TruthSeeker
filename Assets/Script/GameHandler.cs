@@ -606,11 +606,35 @@ public class GameHandler : MonoBehaviour
     }
     public void setGameComplete()
     {
+        StartCoroutine(SavePlayerData());
         isGameEnd = true;
         //Transfer current score and time to the server
     }
+
+    IEnumerator SavePlayerData() 
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("name", DBManager.username);
+        //add the time and number of tries variables here 
+        form.AddField("score", score);
+
+        WWW www = new WWW("http://localhost/truthseekers/savedata.php", form);
+        yield return www;
+
+        if (www.text == "0")
+        {
+            Debug.Log("Game Saved.");
+        }
+        else
+        {
+            Debug.Log("Save failed. Error #" + www.text);
+        }
+        DBManager.LogOut();
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    }
     public void setGameOver()
     {
+        StartCoroutine(SavePlayerData());
         isPlayerDead = true;
     }
     IEnumerator DisplayCall()

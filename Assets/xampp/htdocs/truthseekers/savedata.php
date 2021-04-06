@@ -13,20 +13,23 @@
 	$newscore = $_POST["score"];
 
 	//double checks that there is only one user with this name
-	$namecheckquery = "SELECT Username FROM players WHERE Username='"  . $username . "';";
+	$namecheckquery = "SELECT username FROM playerscoredb WHERE username='"  . $username . "';";
 
 
 	$namecheck = mysqli_query($con, $namecheckquery) or die("2: Name check query failed"); //error code #2 meaning namecheck query failed
 
-	if (mysqli_num_rows($namecheck) != 1)
+	if (mysqli_num_rows($namecheck) > 0) //if user exists in score database already, just update the score 
 	{
-		echo "5: Either no user with name, or more than one"; //error code $5 - number of names matching != 1
+		$updatequery = "UPDATE playerscoredb SET score = " . $newscore . " WHERE username = '" . $username . "';";
+		mysqli_query($con, $updatequery) or die("7: Save query failed"); //error code #7 - UPDATE query failed
+
+		echo "0";
 		exit();
 	}
 
-	$updatequery = "UPDATE players SET Score = " . $newscore . " WHERE Username = '" . $username . "';";
-	mysqli_query($con, $updatequery) or die("7: Save query failed"); //error code #7 - UPDATE query failed
-
+	$insertuserquery = "INSERT INTO playerscoredb (username, score) VALUES ('" . $username .  "', '" . $newscore . "');";
+	mysqli_query($con, $insertuserquery) or die("4: Insert player query failed");
 	echo "0";
+	exit();
 
 ?>
