@@ -11,9 +11,8 @@ public class PostGameManagement : MonoBehaviour
     public Text PostGMText, IntructionText, PanelText;
     public Dropdown WorldSelDropdown;
     public Image PopoutGroup;
-    string Selection, test1;
-    string[] test;
-    int check = 0;
+    string Selection;
+    int check = 0, loadonce = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,17 +32,13 @@ public class PostGameManagement : MonoBehaviour
         CancelButton.onClick.AddListener(() => clicked("Cancel"));
         ConfirmButton.onClick.AddListener(() => clicked("Confirm"));
 
-        
-        
-        //WorldSelDropdown.RefreshOptions();
-
         switch (Selection)
         {
             case "Edit":
                 PostGMText.text = "Edit   World";
                 IntructionText.text = "Select   World   to   Edit";
                 WorldSelDropdown.gameObject.SetActive(true);
-                changeableButton.GetComponentInChildren<Text>().text = "Edit";
+                changeableButton.GetComponentInChildren<Text>().text = "Load";
                 changeableButton.gameObject.SetActive(true);
                 break;
             case "Delete":
@@ -65,17 +60,20 @@ public class PostGameManagement : MonoBehaviour
                 switch (Selection)
                 {
                     case "Edit":
-                        if (checkforFile())
-                        {
-                            SceneManager.LoadScene("EditWorldSetup");
-                        }
-                        else
-                        {
-                            SetPopoutState("Ok");
-                            check = 1;
-                            PanelText.text = "Unable   to   Load   World,   please   try   a   different   world.";
-                        }
 
+                        if ( !checkforFile() )
+                        {
+                            StartCoroutine(DownloadWorldSetup());
+                            StartCoroutine(DownloadWorldData());
+                            SetPopoutState("Ok");
+                            PanelText.text = "Loading   File... Press   load   again.";
+                            check = 1;
+          
+                        }
+                        else 
+                        {
+                           SceneManager.LoadScene("EditWorldSetup");
+                        }
                         break;
                     case "Delete":
                         SetPopoutState("Confirm");
@@ -111,8 +109,8 @@ public class PostGameManagement : MonoBehaviour
 
     bool checkforFile()
     {
-        string path = Application.dataPath + "/" + WorldSelDropdown.options[WorldSelDropdown.value].text + ".csv";
-        string path2 = Application.dataPath + "/" + WorldSelDropdown.options[WorldSelDropdown.value].text+" Setup.csv";
+        string path = "C:/xampp/tmp/" + WorldSelDropdown.options[WorldSelDropdown.value].text + ".csv";
+        string path2 = "C:/xampp/tmp/" + WorldSelDropdown.options[WorldSelDropdown.value].text+" Setup.csv";
 
         return (File.Exists(path)&& File.Exists(path2));
     }
@@ -154,7 +152,9 @@ public class PostGameManagement : MonoBehaviour
         WWWForm form = new WWWForm();
         WWW www = new WWW("http://localhost/truthseekers/DropDownLoad.php", form);
         yield return www;
-        int x = 0;
+
+        string test1;
+        string[] test;
 
         test1 = www.text;
         test = test1.Split( ',');
@@ -165,6 +165,61 @@ public class PostGameManagement : MonoBehaviour
 
         WorldSelDropdown.AddOptions(newlist);
 
+    }
+
+    IEnumerator DownloadWorldSetup()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("WorldName", WorldSelDropdown.options[WorldSelDropdown.value].text);
+        WWW www = new WWW("http://localhost/truthseekers/DownloadWorldSetup.php", form);
+        yield return www;
+
+        
+
+        string test1;
+        string[] test;
+
+        test1 = www.text;
+        test = test1.Split('\n');
+        string path = "C:/xampp/tmp/" + WorldSelDropdown.options[WorldSelDropdown.value].text + " Setup.csv";
+
+        for (int x = 0; x < test.Length; x++)
+        {
+            if (File.Exists(path))
+            {
+                File.AppendAllText(path, test[x]);
+            }
+            else
+            {
+                File.WriteAllText(path, test[x]);
+            }
+        }
+    }
+
+    IEnumerator DownloadWorldData()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("WorldName", WorldSelDropdown.options[WorldSelDropdown.value].text);
+        WWW www = new WWW("http://localhost/truthseekers/DownloadWorldData.php", form);
+        yield return www;
+        string test1;
+        string[] test;
+
+        test1 = www.text;
+        test = test1.Split('\n');
+        string path = "C:/xampp/tmp/" + WorldSelDropdown.options[WorldSelDropdown.value].text + ".csv";
+
+        for (int x = 0; x < test.Length; x++)
+        {
+            if (File.Exists(path))
+            {
+                File.AppendAllText(path, test[x]);
+            }
+            else
+            {
+                File.WriteAllText(path, test[x]);
+            }
+        }
     }
 
     // Update is called once per frame

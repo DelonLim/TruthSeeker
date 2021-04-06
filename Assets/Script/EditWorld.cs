@@ -19,7 +19,7 @@ public class EditWorld : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        actualpath = Application.dataPath + "/" + WorldName + ".csv";
+        actualpath = "C:/xampp/tmp/" + WorldName + ".csv";
         inText = File.ReadAllLines(actualpath);
         NumQuest = (inText.Length + 1) / 9;
         loadFile();
@@ -274,7 +274,7 @@ public class EditWorld : MonoBehaviour
         AnsTwoTextBox.text = inText[NextStart + 3];
         AnsThreeTextBox.text = inText[NextStart + 5];
         AnsFourTextBox.text = inText[NextStart + 7];
-        /*
+        
         if (inText[NextStart + 2] == "T")
         {
             ToggleOne.SetIsOnWithoutNotify(true);
@@ -307,7 +307,7 @@ public class EditWorld : MonoBehaviour
         {
             ToggleFour.SetIsOnWithoutNotify(false);
         }
-        */
+        
         NextStart = NextStart + 9;
 
     }

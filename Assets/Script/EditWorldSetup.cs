@@ -16,6 +16,7 @@ public class EditWorldSetup : MonoBehaviour
     public Text PanelText;
     string WorldName, prev, path;
     int BossHP, BG = 1, BossSprite = 1;
+    string actualpath = "";
 
     void OnEnable()
     {
@@ -189,7 +190,7 @@ public class EditWorldSetup : MonoBehaviour
         PlayerPrefs.SetInt("bg", BG);
     }
 
-    void loadFile(string actualpath)
+    void loadFile()
     {
         //string tempText = File.ReadAllText(actualpath);
         //string[] inText = tempText.Split("\n"[0]);
@@ -199,7 +200,7 @@ public class EditWorldSetup : MonoBehaviour
         WorldNameTextbox.text = path;
         BGDropdown.SetValueWithoutNotify(int.Parse(inText[0])-1);
         BGChange(int.Parse(inText[0])-1);
-        BossDropdown.SetValueWithoutNotify(int.Parse(inText[0]) - 1);
+        BossDropdown.SetValueWithoutNotify(int.Parse(inText[1]) - 1);
         BossChange(int.Parse(inText[1])-1);
         BossHPTextbox.text = inText[2];
 
@@ -208,8 +209,8 @@ public class EditWorldSetup : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        string actualpath = Application.dataPath + "/" + path + " Setup.csv";
-        loadFile(actualpath);
+        actualpath = "C:/xampp/tmp/" + path + " Setup.csv";
+        loadFile();
     }
 
     // Update is called once per frame
