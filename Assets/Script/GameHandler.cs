@@ -652,8 +652,8 @@ public class GameHandler : MonoBehaviour
     {
         WWWForm form = new WWWForm();
         form.AddField("name", DBManager.username);
-        //add the time and number of tries variables here 
-        form.AddField("score", score);
+        form.AddField("score", score); //user's current score uploaded to playerscoreDB
+        form.AddField("time", timerUpload); //time taken by user uploaded to playerscoreDB
 
         WWW www = new WWW("http://localhost/truthseekers/savedata.php", form);
         yield return www;
