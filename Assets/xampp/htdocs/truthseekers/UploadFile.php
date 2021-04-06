@@ -14,13 +14,13 @@
 	$WorldNameSetup = $_POST["WorldNameSetup"];
 	$FileNameSetup = $_POST["FileNameSetup"];
 
-	$includeWorldNameSetupquery = "INSERT INTO `worldsetupdb`(`WorldName`, `TXTFile`) VALUES ('" .$WorldName."','')";
+	$includeWorldNameSetupquery = "INSERT INTO `worldsetupdb`(`WorldName`, `TXTFile`) VALUES ('" .$WorldNameSetup."','')";
 
 
 	$includeWorldNameSetup = mysqli_query($con, $includeWorldNameSetupquery) or die("2: Fail to insert"); //error code #2 meaning namecheck query failed
 
 
-	$updateSetupquery = "UPDATE `worldsetupdb` SET `TXTFile`=LOAD_FILE('C:/xampp/tmp/" .$FileName. "') WHERE `WorldName`='".$WorldName."';";
+	$updateSetupquery = "UPDATE `worldsetupdb` SET `TXTFile`=LOAD_FILE('C:/xampp/tmp/" .$FileNameSetup. "') WHERE `WorldName`='".$WorldNameSetup."';";
 	
 	mysqli_query($con, $updateSetupquery) or die("7: Save query failed"); //error code #7 - UPDATE query failed
 

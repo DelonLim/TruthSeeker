@@ -11,7 +11,8 @@ public class PostStudentAccountManagement : MonoBehaviour
     public InputField StuEmailInput;
     public Dropdown AccSelDropdown;
     public Image PopoutGroup;
-    string mode;
+    string mode,test1;
+    string[] test;
     int check = 0;
     // Start is called before the first frame update
 
@@ -34,7 +35,7 @@ public class PostStudentAccountManagement : MonoBehaviour
         else if (mode == "Delete")
         {
             TitleText.text = "Delete   An   Existing   Student   Account";
-            InstructionText.text = "Select   Acount   To   Delete   Below";
+            InstructionText.text = "Select   Account   To   Delete   Below";
             ChangeableButton.GetComponentInChildren<Text>().text = "Delete   Account";
             AccSelDropdown.gameObject.SetActive(true);
         }
@@ -90,6 +91,7 @@ public class PostStudentAccountManagement : MonoBehaviour
             case "Confirm":
                 SetPopoutState("Ok");
                 check = 1;
+                StartCoroutine(DeleteSelected());
                 PanelText.text = "Account   Deleted!";
                 break;
         }
@@ -117,9 +119,37 @@ public class PostStudentAccountManagement : MonoBehaviour
         }
     }
 
+    IEnumerator LoadDropdown()
+    {
+        WWWForm form = new WWWForm();
+        WWW www = new WWW("http://localhost/truthseekers/AccountDropDownLoad.php", form);
+        yield return www;
+        int x = 0;
+
+        test1 = www.text;
+        test = test1.Split(',');
+        AccSelDropdown.ClearOptions();
+
+        List<string> newlist = new List<string>(test);
+        newlist.RemoveAt(newlist.Count - 1);
+
+        AccSelDropdown.AddOptions(newlist);
+
+    }
+
+    IEnumerator DeleteSelected()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("name", AccSelDropdown.options[AccSelDropdown.value].text);
+
+        WWW www = new WWW("http://localhost/truthseekers/DeleteAccount.php", form);
+        yield return www;
+
+    }
+
     void Start()
     {
-        
+        StartCoroutine(LoadDropdown());
     }
 
     // Update is called once per frame

@@ -11,7 +11,8 @@ public class PostGameManagement : MonoBehaviour
     public Text PostGMText, IntructionText, PanelText;
     public Dropdown WorldSelDropdown;
     public Image PopoutGroup;
-    string Selection, test;
+    string Selection, test1;
+    string[] test;
     int check = 0;
     // Start is called before the first frame update
     void Start()
@@ -31,6 +32,10 @@ public class PostGameManagement : MonoBehaviour
         OkButton.onClick.AddListener(() => clicked("Ok"));
         CancelButton.onClick.AddListener(() => clicked("Cancel"));
         ConfirmButton.onClick.AddListener(() => clicked("Confirm"));
+
+        
+        
+        //WorldSelDropdown.RefreshOptions();
 
         switch (Selection)
         {
@@ -73,7 +78,7 @@ public class PostGameManagement : MonoBehaviour
 
                         break;
                     case "Delete":
-                        SetPopoutState("Close");
+                        SetPopoutState("Confirm");
                         PanelText.text = WorldSelDropdown.options[WorldSelDropdown.value].text + "   Deletion   Confirmation";
                         break;
                 }
@@ -93,6 +98,7 @@ public class PostGameManagement : MonoBehaviour
                 
                 break;
             case "Confirm":
+                StartCoroutine(DeleteSelected());
                 PanelText.text = "World   Successfully   Deleted!!";
                 check = 0;
                 SetPopoutState("Ok");
@@ -133,24 +139,32 @@ public class PostGameManagement : MonoBehaviour
         }
     }
 
+    IEnumerator DeleteSelected()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("name", WorldSelDropdown.options[WorldSelDropdown.value].text);
+
+        WWW www = new WWW("http://localhost/truthseekers/DeleteWorld.php", form);
+        yield return www;
+
+    }
+
     IEnumerator LoadDropdown()
     {
         WWWForm form = new WWWForm();
         WWW www = new WWW("http://localhost/truthseekers/DropDownLoad.php", form);
         yield return www;
+        int x = 0;
 
-        Debug.Log("Value is " + test);
+        test1 = www.text;
+        test = test1.Split( ',');
+        WorldSelDropdown.ClearOptions();
 
-        if (www.text[0] == '0')
-        {
-            test = www.text.Split('\t')[1];
-            Debug.Log("Value is " + test);
-            
-        }
-        else
-        {
-            Debug.Log("Got Nothing");
-        }
+        List<string> newlist = new List<string>(test);
+        newlist.RemoveAt(newlist.Count-1);
+
+        WorldSelDropdown.AddOptions(newlist);
+
     }
 
     // Update is called once per frame

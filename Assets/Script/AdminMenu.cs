@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 public class AdminMenu : MonoBehaviour
 {
     public Button LogoutBtn, gameMgnBtn, resultBtn, stuAccBtn, assignmentBtn;
-    string prev;
+    string prev,test;
     
     // Start is called before the first frame update
     void Start()
@@ -16,7 +16,7 @@ public class AdminMenu : MonoBehaviour
         //string name = Update();
         //Button btn = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
         //btn.onClick.AddListener(Load);
-
+        
     }
 
     private void OnDisable()
@@ -25,6 +25,7 @@ public class AdminMenu : MonoBehaviour
     }
     void OnEnable()
     {
+        
         LogoutBtn.onClick.AddListener(() => clicked("Logout"));
         gameMgnBtn.onClick.AddListener(() => clicked("GameManagement"));
         resultBtn.onClick.AddListener(() => clicked("Result"));
@@ -62,6 +63,7 @@ public class AdminMenu : MonoBehaviour
 		//SceneManager.LoadScene(EventSystem.current.currentSelectedGameObject.name);
 
     }
+
 
     // Update is called once per frame
     void Update()
