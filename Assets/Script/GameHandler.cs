@@ -667,7 +667,7 @@ public class GameHandler : MonoBehaviour
             Debug.Log("Save failed. Error #" + www.text);
         }
         DBManager.LogOut();
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
     }
     public void setGameOver()
     {
