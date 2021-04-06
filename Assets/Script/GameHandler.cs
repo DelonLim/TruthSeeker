@@ -32,6 +32,13 @@ public class GameHandler : MonoBehaviour
         SetupWorld();
 
         timeUP = false;
+        string[] world1234 = { "World 1", "World 2", "World 3", "World 4" };
+
+        for(int i = 0; i < 4; i++)
+        {
+            StartCoroutine(DownloadWorldSetup(world1234[i]));
+            StartCoroutine(DownloadWorldData(world1234[i])); 
+        }
 
         gameHandler = GameObject.FindWithTag("GameController");
         enemyHandler = GameObject.FindWithTag("EnemyHandler");
@@ -108,7 +115,7 @@ public class GameHandler : MonoBehaviour
         timerSeconds += Time.deltaTime;
 
         timerUpload = string.Format("{0:00}:{1:00}", Tmin, TSec);
-        Debug.Log(timerUpload);
+        //Debug.Log(timerUpload);
 
         if (gameMode == 1 || isHarderMode)
         {
@@ -136,8 +143,11 @@ public class GameHandler : MonoBehaviour
     }
     private void setWorldStr()
     {
-        string path = "Assets\\Resources\\WorldSetup.txt";
+        gameHandler = GameObject.FindWithTag("GameController");
+        
+        string path = "C:/xampp/tmp/" + gameHandler.GetComponent<WorldSelected>().getWorldSel() + " Setup.csv";
         worldSetup = System.IO.File.ReadAllLines(path);
+        Debug.Log(path);
     }
     public void setPassingpoint(int totalNumQns)
     {
@@ -169,6 +179,7 @@ public class GameHandler : MonoBehaviour
     public int getBossHP()
     {
         setWorldStr();
+        Debug.Log(bossHP);
         bossHP = int.Parse(worldSetup[2]);
         return bossHP;
     }
@@ -176,13 +187,13 @@ public class GameHandler : MonoBehaviour
     {
         switch (worldSetup[1])
         {
-            case "1": 
+            case "0": 
                 return EnemyBoss[0];
-            case "2":
+            case "1":
                 return EnemyBoss[1];
-            case "3":
+            case "2":
                 return EnemyBoss[2];
-            case "4":
+            case "3":
                 return EnemyBoss[3];
             default:
                 return EnemyBoss[0];
@@ -190,10 +201,43 @@ public class GameHandler : MonoBehaviour
     }
     void SetupWorld()
     {
-        if(worldSetup[0] == "1")
+        switch (worldSetup[0])
         {
-            Instantiate(BG[8], new Vector3(0, 0, 0), Quaternion.identity);
+            case "0":
+                Instantiate(BG[0], new Vector3(0, 0, 0), Quaternion.identity);
+                break;
+            case "1":
+                Instantiate(BG[1], new Vector3(0, 0, 0), Quaternion.identity);
+                break;
+            case "2":
+                Instantiate(BG[2], new Vector3(0, 0, 0), Quaternion.identity);
+                break;
+            case "3":
+                Instantiate(BG[3], new Vector3(0, 0, 0), Quaternion.identity);
+                break;
+            case "4":
+                Instantiate(BG[4], new Vector3(0, 0, 0), Quaternion.identity);
+                break;
+            case "5":
+                Instantiate(BG[5], new Vector3(0, 0, 0), Quaternion.identity);
+                break;
+            case "6":
+                Instantiate(BG[6], new Vector3(0, 0, 0), Quaternion.identity);
+                break;
+            case "7":
+                Instantiate(BG[7], new Vector3(0, 0, 0), Quaternion.identity);
+                break;
+            case "8":
+                Instantiate(BG[8], new Vector3(0, 0, 0), Quaternion.identity);
+                break;
+            case "9":
+                Instantiate(BG[9], new Vector3(0, 0, 0), Quaternion.identity);
+                break;
+            default:
+                Instantiate(BG[0], new Vector3(0, 0, 0), Quaternion.identity);
+                break;
         }
+
     }
     void SelectedAns1()
     {
@@ -699,6 +743,61 @@ public class GameHandler : MonoBehaviour
             MCQ_UI.SetActive(true);
             timeUP = false;
             timeAtkMode = timeAtkMode1;
+        }
+    }
+    
+    IEnumerator DownloadWorldSetup(string worldArray)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("WorldName", worldArray);
+        WWW www = new WWW("http://localhost/truthseekers/DownloadWorldSetup.php", form);
+        yield return www;
+
+
+
+        string test1;
+        string[] test;
+
+        test1 = www.text;
+        test = test1.Split('\n');
+        string path = "C:/xampp/tmp/" + worldArray + " Setup.csv";
+
+        for (int x = 0; x < test.Length; x++)
+        {
+            if (File.Exists(path))
+            {
+                File.AppendAllText(path, test[x]);
+            }
+            else
+            {
+                File.WriteAllText(path, test[x]);
+            }
+        }
+    }
+
+    IEnumerator DownloadWorldData(string worldArray)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("WorldName", worldArray);
+        WWW www = new WWW("http://localhost/truthseekers/DownloadWorldData.php", form);
+        yield return www;
+        string test1;
+        string[] test;
+
+        test1 = www.text;
+        test = test1.Split('\n');
+        string path = "C:/xampp/tmp/" + worldArray + ".csv";
+
+        for (int x = 0; x < test.Length; x++)
+        {
+            if (File.Exists(path))
+            {
+                File.AppendAllText(path, test[x]);
+            }
+            else
+            {
+                File.WriteAllText(path, test[x]);
+            }
         }
     }
 }

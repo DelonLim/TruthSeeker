@@ -327,7 +327,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 230940206}
-  - component: {fileID: 230940205}
   m_Layer: 0
   m_Name: GameHandler
   m_TagString: Untagged
@@ -335,23 +334,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &230940205
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 230940204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8686a3bb977ffab4ba20e90a5451d793, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ConfirmBtn: {fileID: 0}
-  Warrior: {fileID: 0}
-  Magician: {fileID: 0}
-  Knight: {fileID: 0}
-  Thief: {fileID: 0}
 --- !u!4 &230940206
 Transform:
   m_ObjectHideFlags: 0

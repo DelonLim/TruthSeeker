@@ -46,25 +46,25 @@ public class Enemy : MonoBehaviour
         {
             enemyMobCount = qnsCount - gameHandler.GetComponent<GameHandler>().getBossHP();
             enemyMobLeft = qnsCount - gameHandler.GetComponent<GameHandler>().getBossHP();
-            enemyHP = 5;
+            enemyHP = gameHandler.GetComponent<GameHandler>().getBossHP();
         }
         else if (sceneName == "World 2")
         {
             enemyMobCount = qnsCount - gameHandler.GetComponent<GameHandler>().getBossHP();
-            enemyMobLeft = qnsCount - 6;
-            enemyHP = 6;
+            enemyMobLeft = qnsCount - gameHandler.GetComponent<GameHandler>().getBossHP();
+            enemyHP = gameHandler.GetComponent<GameHandler>().getBossHP();
         }
         else if (sceneName == "World 3")
         {
-            enemyMobCount = qnsCount - 7;
-            enemyMobLeft = qnsCount - 7;
-            enemyHP = 7;
+            enemyMobCount = qnsCount - gameHandler.GetComponent<GameHandler>().getBossHP();
+            enemyMobLeft = qnsCount - gameHandler.GetComponent<GameHandler>().getBossHP();
+            enemyHP = gameHandler.GetComponent<GameHandler>().getBossHP();
         }
         else if (sceneName == "World 4")
         {
-            enemyMobCount = qnsCount - 8;
-            enemyMobLeft = qnsCount - 8;
-            enemyHP = 8;
+            enemyMobCount = qnsCount - gameHandler.GetComponent<GameHandler>().getBossHP();
+            enemyMobLeft = qnsCount - gameHandler.GetComponent<GameHandler>().getBossHP();
+            enemyHP = gameHandler.GetComponent<GameHandler>().getBossHP();
         }
 
         spawnEnemyMob();
@@ -104,7 +104,7 @@ public class Enemy : MonoBehaviour
             //if enemyMobCount = 0, prepare to spawn boss after next enemy mob being clear
             if(enemyMobCount == 0)
             {
-                Debug.Log("Boss Spawn true");
+                //Debug.Log("Boss Spawn true");
                 isPrepareBoss = true;
             }
             //spawn at most only 6 enemy in one scene.
