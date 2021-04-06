@@ -208,14 +208,14 @@ public class EditWorld : MonoBehaviour
 
     void CreateGameSetupTxt()
     {
-        string path = Application.dataPath + "/" + WorldName + " Setup.csv";
+        string path = "C:/xampp/tmp/" + WorldName + " Setup.csv";
         string content = BG.ToString() + "\n" + Boss.ToString() + "\n" + BossHP.ToString();
         File.WriteAllText(path, content);
     }
 
     void CreateQuestionTxt()
     {
-        string path = Application.dataPath + "/" + WorldName + ".csv";
+        string path = "C:/xampp/tmp/" + WorldName + ".csv";
         string one, two, three, four;
 
         if (ToggleOne.isOn)

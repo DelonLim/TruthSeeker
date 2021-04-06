@@ -1,0 +1,90 @@
+Which is not a SOLID principle of object-oriented programming?
+Triple-responsibility principle
+F
+Interface segregation principle
+F
+Dependency inversion principle
+F
+Low coupling principle
+T
+What is an essential attribute of good software? 
+Maintainability
+T
+Safety
+F
+Caring
+F
+Integrity
+F
+Which of the following is not a software quality attribute?
+Interoperability
+F
+Correctness
+F
+downtime
+F
+Retrievability
+T
+Which of the following is not a software quality attribute?
+Reliability
+F
+Integrity
+F
+Capability
+T
+Installability
+F
+An increase in flexibility leads to an increase in efficiency of the software.
+True
+F
+False
+T
+-
+F
+-
+F
+Which of these is not a benefit of a dialog map?
+Find incorrect or missing transitions early
+F
+Find navigation dead-ends
+F
+Define user back-out and cancellation routes
+F
+None of the above
+T
+What is not an advantage of the Data Flow Architecture?
+Concurrent execution of processing elements
+F
+Reusable components
+F
+Synchronization between components is easy
+T
+Easy integration
+F
+What is not an advantage of the Pipe-And-Filter Style?
+Easy to understand
+F
+Good at handling interactive applications
+T
+Naturally support concurrent execution
+F
+Permit system analysis
+F
+What is not a disadvantage of the Layered Structure Style?
+Not all systems are easily structured in a layered fashion
+F
+Difficult to find the right levels of abstraction
+F
+Lower performance
+F
+Does not support increasing levels of abstraction
+T
+The Pipe-And-Filter Style promotes reusability.
+True
+T
+False
+F
+-
+F
+-
+F
