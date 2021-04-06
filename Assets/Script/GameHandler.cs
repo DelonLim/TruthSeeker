@@ -20,9 +20,9 @@ public class GameHandler : MonoBehaviour
         false, timeUP = false, isSkillUsed = false, isHarderMode = false, isIncreaseBoss = false, isHarderBoss = false;
     private float sec = 2.0f;
     private List<string> currMCQs;
-    private string HP;
+    private string HP, timerUpload;
     private int score = 0, passingpoint = 0, gameMode = 0, HPRemain = 0;
-    private float timeAtkMode = 50.0f, timeAtkMode1 = 50.0f;
+    private float timeAtkMode = 50.0f, timeAtkMode1 = 50.0f, timerMinutes = 0.0f, timerSeconds = 0.0f;
 
     //public GameObject GameManager;
     // Start is called before the first frame update
@@ -98,10 +98,18 @@ public class GameHandler : MonoBehaviour
         GameOver_MSG.SetActive(false);
         
     }
-
+    
     // Update is called once per frame
     void Update()
     {
+        float Tmin = Mathf.FloorToInt(timerMinutes / 60);
+        float TSec = Mathf.FloorToInt(timerSeconds % 60);
+        timerMinutes += Time.deltaTime;
+        timerSeconds += Time.deltaTime;
+
+        timerUpload = string.Format("{0:00}:{1:00}", Tmin, TSec);
+        Debug.Log(timerUpload);
+
         if (gameMode == 1 || isHarderMode)
         {
             float seconds = Mathf.FloorToInt(timeAtkMode % 60);
