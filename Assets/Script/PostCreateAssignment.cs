@@ -3,14 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class PostCreateAssignment : MonoBehaviour
 {
     public Button ShareButton, AdminmenuButton;
     public InputField CodeHere;
-    string UniqueCode = "";
+    string UniqueCode = "",location1,location2;
     private void OnEnable()
     {
+        location1 = PlayerPrefs.GetString("location1");
+        location2 = PlayerPrefs.GetString("location2");
+        if (location1 != "" && location2 != "")
+        {
+            File.Delete(location1);
+            File.Delete(location2);
+        }
         UniqueCode = PlayerPrefs.GetString("code");
         ShareButton.onClick.AddListener(() => clicked("Share"));
         AdminmenuButton.onClick.AddListener(() => clicked("Menu"));

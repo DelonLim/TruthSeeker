@@ -12,8 +12,8 @@ public class CreateAssignment : MonoBehaviour
     public Image PopoutGroup;
     public Text PanelText;
     public Toggle ToggleOne, ToggleTwo, ToggleThree, ToggleFour;
-    string UniqueCode = "", WorldName="";
-    int BossHP, Boss, BG, QCount=0, end =0;
+    string UniqueCode = "", WorldName = "";
+    int BossHP, Boss, BG, QCount = 0, end = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,7 +44,7 @@ public class CreateAssignment : MonoBehaviour
         string Characters = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         string code = "";
 
-        for (int x = 0; x <6; x++)
+        for (int x = 0; x < 6; x++)
         {
             int index = Random.Range(0, Characters.Length);
             code = code + Characters[index];
@@ -54,9 +54,12 @@ public class CreateAssignment : MonoBehaviour
 
     private void OnDisable()
     {
-        File.Delete("C:/xampp/tmp/" + WorldName + " " + UniqueCode + " Setup.csv");
-        File.Delete("C:/xampp/tmp/" + WorldName + " " + UniqueCode + ".csv");
+        //File.Delete("C:/xampp/tmp/" + WorldName + " " + UniqueCode + " Setup.csv");
+        //File.Delete("C:/xampp/tmp/" + WorldName + " " + UniqueCode + ".csv");
         PlayerPrefs.SetString("code", UniqueCode);
+        PlayerPrefs.SetString("location1", "C:/xampp/tmp/" + WorldName + " " + UniqueCode + " Setup.csv");
+        PlayerPrefs.SetString("location2", "C:/xampp/tmp/" + WorldName + " " + UniqueCode + ".csv");
+
     }
 
     void clicked(string pressed)
@@ -115,15 +118,15 @@ public class CreateAssignment : MonoBehaviour
                 if (QCount < BossHP)
                 {
                     SetPopoutState("Ok");
-                    PanelText.text = "Please   Add   " + (BossHP-QCount) + "   more   Questions.";
+                    PanelText.text = "Please   Add   " + (BossHP - QCount) + "   more   Questions.";
                 }
-                else 
+                else
                 {
                     CreateGameSetupTxt();
                     SetPopoutState("Ok");
-                    PanelText.text ="Total:   " + QCount + "   Questions,  " + BossHP + "   Questions   are   Boss   Questions.";
+                    PanelText.text = "Total:   " + QCount + "   Questions,  " + BossHP + "   Questions   are   Boss   Questions.";
                     end = 1;
-                 }
+                }
                 break;
             case "Cancel":
                 SceneManager.LoadScene("AdminMenu");
@@ -135,7 +138,7 @@ public class CreateAssignment : MonoBehaviour
 
                     SceneManager.LoadScene("PostAssignmentCreation");
                 }
-                else 
+                else
                 {
                     SetPopoutState("Close");
                 }
@@ -154,7 +157,7 @@ public class CreateAssignment : MonoBehaviour
 
     void SetPopoutState(string Style)
     {
-        switch(Style)
+        switch (Style)
         {
             case "Ok":
                 PopoutGroup.gameObject.SetActive(true);
@@ -192,8 +195,8 @@ public class CreateAssignment : MonoBehaviour
                 ToggleThree.interactable = true;
                 ToggleFour.interactable = true;
                 break;
-        }    
-    }       
+        }
+    }
     void setInitialState()
     {
         QuestionTextBox.text = "";
@@ -226,7 +229,7 @@ public class CreateAssignment : MonoBehaviour
         {
             one = "T";
         }
-        else 
+        else
         {
             one = "F";
         }
@@ -294,7 +297,7 @@ public class CreateAssignment : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
 

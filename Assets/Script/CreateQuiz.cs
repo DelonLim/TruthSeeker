@@ -54,8 +54,10 @@ public class CreateQuiz : MonoBehaviour
 
     private void OnDisable()
     {
-        File.Delete("C:/xampp/tmp/" + UniqueCode + " Setup.csv");
-        File.Delete("C:/xampp/tmp/" + UniqueCode + ".csv");
+        //File.Delete("C:/xampp/tmp/" + UniqueCode + " Setup.csv");
+        //File.Delete("C:/xampp/tmp/" + UniqueCode + ".csv");
+        PlayerPrefs.SetString("location1", "C:/xampp/tmp/" + UniqueCode + " Setup.csv");
+        PlayerPrefs.SetString("location2", "C:/xampp/tmp/" + UniqueCode + ".csv");
         PlayerPrefs.SetString("code", UniqueCode);
     }
 

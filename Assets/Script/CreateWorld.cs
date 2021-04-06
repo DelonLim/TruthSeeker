@@ -42,8 +42,10 @@ public class CreateWorld : MonoBehaviour
 
     private void OnDisable()
     {
-        File.Delete("C:/xampp/tmp/" + WorldName + " Setup.csv");
-        File.Delete("C:/xampp/tmp/" + WorldName + ".csv");
+        PlayerPrefs.SetString("location1", "C:/xampp/tmp/" + WorldName + " Setup.csv");
+        PlayerPrefs.SetString("location2", "C:/xampp/tmp/" + WorldName + ".csv");
+        //File.Delete("C:/xampp/tmp/" + WorldName + " Setup.csv");
+        //File.Delete("C:/xampp/tmp/" + WorldName + ".csv");
     }
 
     void clicked(string pressed)
@@ -206,7 +208,7 @@ public class CreateWorld : MonoBehaviour
 
     void CreateQuestionTxt()
     {
-        string path = "C:/xampp/tmp/" + WorldName +  ".csv";
+        string path = "C:/xampp/tmp/" + WorldName + ".csv";
         string one, two, three, four;
 
         if (ToggleOne.isOn)

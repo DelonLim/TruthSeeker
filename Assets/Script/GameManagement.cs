@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class GameManagement : MonoBehaviour
 {
     public Button createWorld, editWorld, deleteWorld, back;
-    string selection,prev;
+    string selection,prev,location1="",location2="";
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +16,14 @@ public class GameManagement : MonoBehaviour
     }
     void OnEnable()
     {
+        location1 = PlayerPrefs.GetString("location1");
+        location2 = PlayerPrefs.GetString("location2");
+        if (location1 !="" && location2!="")
+        {
+            File.Delete(location1);
+            File.Delete(location2);
+        }
+
         createWorld.onClick.AddListener(() => clicked("CreateWorld"));
         editWorld.onClick.AddListener(() => clicked("EditWorld"));
         deleteWorld.onClick.AddListener(() => clicked("DeleteWorld"));
