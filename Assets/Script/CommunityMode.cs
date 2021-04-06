@@ -51,7 +51,7 @@ public class CommunityMode : MonoBehaviour
                 }
                 else if (mode == 1)
                 {
-                    string path = Application.dataPath + "/" + CodeTextbox.text +".txt";
+                    string path = Application.dataPath + "/" + CodeTextbox.text +".csv";
 
 
                     if (File.Exists(path))

@@ -19,7 +19,7 @@ public class EditWorld : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        actualpath = Application.dataPath + "/" + WorldName + ".txt";
+        actualpath = Application.dataPath + "/" + WorldName + ".csv";
         inText = File.ReadAllLines(actualpath);
         NumQuest = (inText.Length + 1) / 9;
         loadFile();
@@ -208,14 +208,14 @@ public class EditWorld : MonoBehaviour
 
     void CreateGameSetupTxt()
     {
-        string path = Application.dataPath + "/" + WorldName + " Setup.txt";
+        string path = Application.dataPath + "/" + WorldName + " Setup.csv";
         string content = BG.ToString() + "\n" + Boss.ToString() + "\n" + BossHP.ToString();
         File.WriteAllText(path, content);
     }
 
     void CreateQuestionTxt()
     {
-        string path = Application.dataPath + "/" + WorldName + ".txt";
+        string path = Application.dataPath + "/" + WorldName + ".csv";
         string one, two, three, four;
 
         if (ToggleOne.isOn)

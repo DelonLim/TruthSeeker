@@ -105,8 +105,8 @@ public class PostGameManagement : MonoBehaviour
 
     bool checkforFile()
     {
-        string path = Application.dataPath + "/" + WorldSelDropdown.options[WorldSelDropdown.value].text + ".txt";
-        string path2 = Application.dataPath + "/" + WorldSelDropdown.options[WorldSelDropdown.value].text+" Setup.txt";
+        string path = Application.dataPath + "/" + WorldSelDropdown.options[WorldSelDropdown.value].text + ".csv";
+        string path2 = Application.dataPath + "/" + WorldSelDropdown.options[WorldSelDropdown.value].text+" Setup.csv";
 
         return (File.Exists(path)&& File.Exists(path2));
     }
