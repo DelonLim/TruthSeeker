@@ -8,22 +8,22 @@ using TMPro;
 public class GameHandler : MonoBehaviour
 {
     public GameObject Alert, MCQ_UI, Clear_Msg, GameOver_MSG, TimerBG;
-    public Button Ans1, Ans2, Ans3, Ans4, cfmbtn;
+    public Button Ans1, Ans2, Ans3, Ans4, cfmbtn, skill_btn;
     public string[] worldSetup;
     private int bossHP = 1;
-    public List<GameObject> BG;
+    public List<GameObject> BG, skillHighlight, ansSkill;
     public List<GameObject> EnemyBoss;
     public List<TMP_Text> topTextDisplay;
 
-    private GameObject enemyHandler, gameHandler, player;
+    private GameObject enemyHandler, gameHandler, player, playerHandler;
     private bool Ans1Sel = false, Ans2Sel = false, Ans3Sel = false, Ans4Sel = false, isGameEnd = false, isPlayerDead =
-        false;
+        false, timeUP = false, isSkillUsed = false;
     private float sec = 2.0f;
     private List<string> currMCQs;
     private string HP;
     private int score = 0, gameMode = 0, HPRemain = 0;
     private float timeAtkMode = 5.0f;
-    private bool timeUP = false;
+
     //public GameObject GameManager;
     // Start is called before the first frame update
     void Start()
@@ -37,7 +37,7 @@ public class GameHandler : MonoBehaviour
         enemyHandler = GameObject.FindWithTag("EnemyHandler");
         player = GameObject.FindWithTag("Player");
 
-        gameMode = 2;//gameHandler.GetComponent<ModeSelection>().getMode();
+        gameMode = gameHandler.GetComponent<ModeSelection>().getMode();
 
         if(gameMode == 2)
         {
@@ -69,6 +69,9 @@ public class GameHandler : MonoBehaviour
 
             Button cfmbtn1 = cfmbtn.GetComponent<Button>();
             cfmbtn1.onClick.AddListener(confirmAns);
+
+            Button skill_btn1 = skill_btn.GetComponent<Button>();
+            skill_btn1.onClick.AddListener(skill);
         }
         else
         {
@@ -85,8 +88,11 @@ public class GameHandler : MonoBehaviour
 
             Button cfmbtn1 = cfmbtn.GetComponent<Button>();
             cfmbtn1.onClick.AddListener(confirmAns);
-        }
 
+            Button skill_btn1 = skill_btn.GetComponent<Button>();
+            skill_btn1.onClick.AddListener(skill);
+        }
+        
         Alert.SetActive(false);
         Clear_Msg.SetActive(false);
         GameOver_MSG.SetActive(false);
@@ -128,8 +134,20 @@ public class GameHandler : MonoBehaviour
     public void getPlayerHPDisplay()
     {
         player = GameObject.FindWithTag("Player");
-        HP = player.GetComponent<PlayerCharacter>().getHP().ToString();
-        HPRemain = player.GetComponent<PlayerCharacter>().getHP();
+        playerHandler = GameObject.FindWithTag("PlayerHandler");
+
+        //if player char is knight
+        if(playerHandler.GetComponent<CharactersSel>().getChar() == 2)
+        {
+            HP = (player.GetComponent<PlayerCharacter>().getHP() + 1).ToString();
+            HPRemain = player.GetComponent<PlayerCharacter>().getHP() + 1;
+        }
+        else
+        {
+            HP = player.GetComponent<PlayerCharacter>().getHP().ToString();
+            HPRemain = player.GetComponent<PlayerCharacter>().getHP();
+        }
+        
         topTextDisplay[2].text = "HP : " + HP + " / " + HP;
     }
     private void updateHP()
@@ -296,10 +314,181 @@ public class GameHandler : MonoBehaviour
         yield return new WaitForSeconds(sec);
         Alert.SetActive(false);
     }
+    public void skill()
+    {
+        playerHandler = GameObject.FindWithTag("PlayerHandler");
 
-    public void getcurrMCQ(List<string> currQns)
+        //if player char is warrior, magician, or thief
+        if (playerHandler.GetComponent<CharactersSel>().getChar() == 0)
+        {
+            warriorSkill();
+        }
+        else if (playerHandler.GetComponent<CharactersSel>().getChar() == 1)
+        {
+            if (currMCQs[2] == "T")
+            {
+                Ans1.GetComponent<Image>().color = Color.red;
+            }
+            else if (currMCQs[4] == "T")
+            {
+                Ans2.GetComponent<Image>().color = Color.red;
+            }
+            else if (currMCQs[6] == "T")
+            {
+                Ans3.GetComponent<Image>().color = Color.red;
+            }
+            else if (currMCQs[8] == "T")
+            {
+                Ans4.GetComponent<Image>().color = Color.red;
+            }
+
+            magicianSkill();
+        }
+        else if (playerHandler.GetComponent<CharactersSel>().getChar() == 3)
+        {
+            thiefSkill();
+        }
+        isSkillUsed = true;
+        skill_btn.interactable = false;
+    }
+    private void warriorSkill()
+    {
+        int RadAns = Random.Range(0, 2);
+        if(RadAns == 0)
+        {
+            if (currMCQs[2] == "T")
+            {
+                Ans1.GetComponent<Image>().color = Color.red;
+            }
+            else if (currMCQs[4] == "T")
+            {
+                Ans2.GetComponent<Image>().color = Color.red;
+            }
+            else if (currMCQs[6] == "T")
+            {
+                Ans3.GetComponent<Image>().color = Color.red;
+            }
+            else if (currMCQs[8] == "T")
+            {
+                Ans4.GetComponent<Image>().color = Color.red;
+            }
+        }
+        else
+        {
+            magicianSkill();
+        }
+    }
+
+    private void magicianSkill()
+    {
+        int RadAns = Random.Range(0, 4);
+
+        if (RadAns == 0)
+        {
+            if (currMCQs[2] == "F")
+            {
+                Ans1.GetComponent<Image>().color = Color.red;
+            }
+            else
+            {
+                magicianSkill();
+            }
+        } 
+        else if (RadAns == 1)
+        {
+            if (currMCQs[4] == "F")
+            {
+                Ans2.GetComponent<Image>().color = Color.red;
+            }
+            else
+            {
+                magicianSkill();
+            }
+        }
+        else if (RadAns == 2)
+        {
+            if (currMCQs[6] == "F")
+            {
+                Ans3.GetComponent<Image>().color = Color.red;
+            }
+            else
+            {
+                magicianSkill();
+            }
+        }
+        else if (RadAns == 3)
+        {
+            if (currMCQs[8] == "F")
+            {
+                Ans4.GetComponent<Image>().color = Color.red;
+            }
+            else
+            {
+                magicianSkill();
+            }
+        }
+
+    }
+    private void thiefSkill()
+    {
+        int RadAns = Random.Range(0, 4);
+
+        if (RadAns == 0)
+        {
+            if (currMCQs[2] == "F")
+            {
+                ansSkill[RadAns].SetActive(false);
+            }
+            else
+            {
+                thiefSkill();
+            }
+        }
+        else if (RadAns == 1)
+        {
+            if (currMCQs[4] == "F")
+            {
+                ansSkill[RadAns].SetActive(false);
+            }
+            else
+            {
+                thiefSkill();
+            }
+        }
+        else if (RadAns == 2)
+        {
+            if (currMCQs[6] == "F")
+            {
+                ansSkill[RadAns].SetActive(false);
+            }
+            else
+            {
+                thiefSkill();
+            }
+        }
+        else if (RadAns == 3)
+        {
+            if (currMCQs[8] == "F")
+            {
+                ansSkill[RadAns].SetActive(false);
+            }
+            else
+            {
+                thiefSkill();
+            }
+        }
+        
+    }
+        public void getcurrMCQ(List<string> currQns)
     {
         currMCQs = currQns;
+    }
+    private void setColor()
+    {
+        Ans1.GetComponent<Image>().color = Color.white;
+        Ans2.GetComponent<Image>().color = Color.white;
+        Ans3.GetComponent<Image>().color = Color.white;
+        Ans4.GetComponent<Image>().color = Color.white;
     }
     void checkAns()
     {
@@ -354,6 +543,7 @@ public class GameHandler : MonoBehaviour
             HPRemain--;
             updateHP();
         }
+        setColor();
         MCQ_UI.SetActive(false);
         StartCoroutine(DisplayCall());
     }
@@ -410,6 +600,7 @@ public class GameHandler : MonoBehaviour
             HPRemain--;
             updateHP();
         }
+        setColor();
         MCQ_UI.SetActive(false);
         StartCoroutine(DisplayCall());
     }
