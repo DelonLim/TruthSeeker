@@ -17,12 +17,12 @@ public class GameHandler : MonoBehaviour
 
     private GameObject enemyHandler, gameHandler, player, playerHandler;
     private bool Ans1Sel = false, Ans2Sel = false, Ans3Sel = false, Ans4Sel = false, isGameEnd = false, isPlayerDead =
-        false, timeUP = false, isSkillUsed = false;
+        false, timeUP = false, isSkillUsed = false, isHarderMode = false, isIncreaseBoss = false, isHarderBoss = false;
     private float sec = 2.0f;
     private List<string> currMCQs;
     private string HP;
-    private int score = 0, gameMode = 0, HPRemain = 0;
-    private float timeAtkMode = 5.0f;
+    private int score = 0, passingpoint = 0, gameMode = 0, HPRemain = 0;
+    private float timeAtkMode = 50.0f, timeAtkMode1 = 50.0f;
 
     //public GameObject GameManager;
     // Start is called before the first frame update
@@ -102,7 +102,7 @@ public class GameHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameMode == 1)
+        if (gameMode == 1 || isHarderMode)
         {
             float seconds = Mathf.FloorToInt(timeAtkMode % 60);
             topTextDisplay[0].text = string.Format("{0:00}:{1:00}", "0", seconds);
@@ -130,6 +130,10 @@ public class GameHandler : MonoBehaviour
     {
         string path = "Assets\\Resources\\WorldSetup.txt";
         worldSetup = System.IO.File.ReadAllLines(path);
+    }
+    public void setPassingpoint(int totalNumQns)
+    {
+        passingpoint = totalNumQns / 2;
     }
     public void getPlayerHPDisplay()
     {
@@ -180,7 +184,6 @@ public class GameHandler : MonoBehaviour
     {
         if(worldSetup[0] == "1")
         {
-            Debug.Log("");
             Instantiate(BG[8], new Vector3(0, 0, 0), Quaternion.identity);
         }
     }
@@ -341,7 +344,6 @@ public class GameHandler : MonoBehaviour
             {
                 Ans4.GetComponent<Image>().color = Color.red;
             }
-
             magicianSkill();
         }
         else if (playerHandler.GetComponent<CharactersSel>().getChar() == 3)
@@ -490,12 +492,32 @@ public class GameHandler : MonoBehaviour
         Ans3.GetComponent<Image>().color = Color.white;
         Ans4.GetComponent<Image>().color = Color.white;
     }
+    private void increaseDiff()
+    {
+        if (score >= passingpoint && !isHarderMode)
+        {
+            isHarderMode = true;
+            topTextDisplay[1].text = "Time Attack";
+            TimerBG.SetActive(true);
+        }else if (enemyHandler.GetComponent<Enemy>().isBossSpawn && !isHarderBoss)
+        {
+            isHarderBoss = true;
+            timeAtkMode1 = timeAtkMode1 - 20.0f;
+        }
+
+        if(enemyHandler.GetComponent<Enemy>().isBossSpawn && !isIncreaseBoss)
+        {
+            isIncreaseBoss = true;
+            timeAtkMode1 = timeAtkMode1 - 20.0f;
+        }
+    }
     void checkAns()
     {
         if (Ans1Sel && currMCQs[2] == "T")
         {
             //Debug.Log("Correct");
             score++;
+            increaseDiff();
             if (enemyHandler.GetComponent<Enemy>().isBossSpawn)
             {
                 enemyHandler.GetComponent<Enemy>().deductHP(1);
@@ -506,6 +528,7 @@ public class GameHandler : MonoBehaviour
         else if (Ans2Sel && currMCQs[4] == "T")
         {
             score++;
+            increaseDiff();
             if (enemyHandler.GetComponent<Enemy>().isBossSpawn)
             {
                 enemyHandler.GetComponent<Enemy>().deductHP(1);
@@ -516,6 +539,7 @@ public class GameHandler : MonoBehaviour
         else if (Ans3Sel && currMCQs[6] == "T")
         {
             score++;
+            increaseDiff();
             if (enemyHandler.GetComponent<Enemy>().isBossSpawn)
             {
                 enemyHandler.GetComponent<Enemy>().deductHP(1);
@@ -526,6 +550,7 @@ public class GameHandler : MonoBehaviour
         else if (Ans4Sel && currMCQs[8] == "T")
         {
             score++;
+            increaseDiff();
             if (enemyHandler.GetComponent<Enemy>().isBossSpawn)
             {
                 enemyHandler.GetComponent<Enemy>().deductHP(1);
@@ -553,6 +578,7 @@ public class GameHandler : MonoBehaviour
         {
             //Debug.Log("Correct");
             score++;
+            increaseDiff();
             if (enemyHandler.GetComponent<Enemy>().isBossSpawn)
             {
                 enemyHandler.GetComponent<Enemy>().deductHP(1);
@@ -563,6 +589,7 @@ public class GameHandler : MonoBehaviour
         else if ((Ans1Sel && currMCQs[2] == "F") && (Ans2Sel && currMCQs[4] == "F") && (Ans4Sel && currMCQs[8] == "F") && (!Ans3Sel && currMCQs[6] == "T"))
         {
             score++;
+            increaseDiff();
             if (enemyHandler.GetComponent<Enemy>().isBossSpawn)
             {
                 enemyHandler.GetComponent<Enemy>().deductHP(1);
@@ -573,6 +600,7 @@ public class GameHandler : MonoBehaviour
         else if ((Ans1Sel && currMCQs[2] == "F") && (Ans3Sel && currMCQs[6] == "F") && (Ans4Sel && currMCQs[8] == "F") && (!Ans2Sel && currMCQs[4] == "T"))
         {
             score++;
+            increaseDiff();
             if (enemyHandler.GetComponent<Enemy>().isBossSpawn)
             {
                 enemyHandler.GetComponent<Enemy>().deductHP(1);
@@ -583,6 +611,7 @@ public class GameHandler : MonoBehaviour
         else if ((Ans2Sel && currMCQs[4] == "F") && (Ans3Sel && currMCQs[6] == "F") && (Ans4Sel && currMCQs[8] == "F") && (!Ans1Sel && currMCQs[2] == "T"))
         {
             score++;
+            increaseDiff();
             if (enemyHandler.GetComponent<Enemy>().isBossSpawn)
             {
                 enemyHandler.GetComponent<Enemy>().deductHP(1);
@@ -661,7 +690,7 @@ public class GameHandler : MonoBehaviour
             Ans4.GetComponent<TextBG>().Unselectedbtn();
             MCQ_UI.SetActive(true);
             timeUP = false;
-            timeAtkMode = 5.0f;
+            timeAtkMode = timeAtkMode1;
         }
     }
 }

@@ -28,6 +28,7 @@ public class ReadMCQ : MonoBehaviour
         gameHandler = GameObject.FindWithTag("GameController");
         playerHandler = GameObject.FindWithTag("Player");
         playerHandler.GetComponent<PlayerCharacter>().setPlayerHP(AllQnsAns);
+        gameHandler.GetComponent<GameHandler>().setPassingpoint(AllQnsAns.Length / 9);
         gameHandler.GetComponent<GameHandler>().getPlayerHPDisplay();
         //Debug.Log(AllQnsAns.Length);
         //each qns should have 9 lines 1st line qns follow by each answer and it's True False value
