@@ -136,10 +136,18 @@ public class GameHandler : MonoBehaviour
     private void setWorldStr()
     {
         gameHandler = GameObject.FindWithTag("GameController");
+
+        if (gameHandler.GetComponent<WorldSelected>().getisWorldSel())
+        {
+            string path = "C:/xampp/tmp/" + gameHandler.GetComponent<WorldSelected>().getWorldSel() + " Setup.csv";
+            worldSetup = System.IO.File.ReadAllLines(path);
+        }else if (gameHandler.GetComponent<AssignmentMode>().getisAssignSel())
+        {
+            string path = "C:/xampp/tmp/" + gameHandler.GetComponent<AssignmentMode>().getAssignSel() + " Setup.csv";
+            worldSetup = System.IO.File.ReadAllLines(path);
+        }
         
-        string path = "C:/xampp/tmp/" + gameHandler.GetComponent<WorldSelected>().getWorldSel() + " Setup.csv";
-        worldSetup = System.IO.File.ReadAllLines(path);
-        Debug.Log(path);
+        //Debug.Log(path);
     }
     public void setPassingpoint(int totalNumQns)
     {
@@ -686,14 +694,19 @@ public class GameHandler : MonoBehaviour
     }
     public void deleteAllFiles()
     {
-        File.Delete("C:/xampp/tmp/World 1.csv");
-        File.Delete("C:/xampp/tmp/World 1 Setup.csv");
-        File.Delete("C:/xampp/tmp/World 2.csv");
-        File.Delete("C:/xampp/tmp/World 2 Setup.csv");
-        File.Delete("C:/xampp/tmp/World 3.csv");
-        File.Delete("C:/xampp/tmp/World 3 Setup.csv");
-        File.Delete("C:/xampp/tmp/World 4.csv");
-        File.Delete("C:/xampp/tmp/World 4 Setup.csv");
+        gameHandler = GameObject.FindWithTag("GameController");
+
+        if (gameHandler.GetComponent<WorldSelected>().getisWorldSel())
+        {
+            File.Delete("C:/xampp/tmp/World 1.csv");
+            File.Delete("C:/xampp/tmp/World 1 Setup.csv");
+            File.Delete("C:/xampp/tmp/World 2.csv");
+            File.Delete("C:/xampp/tmp/World 2 Setup.csv");
+            File.Delete("C:/xampp/tmp/World 3.csv");
+            File.Delete("C:/xampp/tmp/World 3 Setup.csv");
+            File.Delete("C:/xampp/tmp/World 4.csv");
+            File.Delete("C:/xampp/tmp/World 4 Setup.csv");
+        }
     }
 
     IEnumerator SavePlayerData() 

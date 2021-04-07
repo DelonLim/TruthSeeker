@@ -11,6 +11,7 @@ public class WorldSelected : MonoBehaviour
     ToggleGroup toogleGroupInstance;
     public Button ConfirmBtn, backBtn;
     static string worldSel;
+    static bool isWorldSel = false;
 
     public Toggle currentSelection
     {
@@ -45,6 +46,10 @@ public class WorldSelected : MonoBehaviour
     {
         return worldSel;
     }
+    public bool getisWorldSel()
+    {
+        return isWorldSel;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -66,6 +71,7 @@ public class WorldSelected : MonoBehaviour
     public void SelectedWorld()
     {
         worldSel = currentSelection.name;
+        isWorldSel = true;
         loadlevel("World 1");
     }
     public void backChar()

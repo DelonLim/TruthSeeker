@@ -23,8 +23,17 @@ public class ReadMCQ : MonoBehaviour
         gameHandler = GameObject.FindWithTag("GameController");
         playerHandler = GameObject.FindWithTag("Player");
 
-        string path = "C:/xampp/tmp/" + gameHandler.GetComponent<WorldSelected>().getWorldSel() + ".csv";
-        AllQnsAns = System.IO.File.ReadAllLines(path);
+        if (gameHandler.GetComponent<WorldSelected>().getisWorldSel())
+        {
+            string path = "C:/xampp/tmp/" + gameHandler.GetComponent<WorldSelected>().getWorldSel() + ".csv";
+            AllQnsAns = System.IO.File.ReadAllLines(path);
+        }
+        else if (gameHandler.GetComponent<AssignmentMode>().getisAssignSel())
+        {
+            string path = "C:/xampp/tmp/" + gameHandler.GetComponent<AssignmentMode>().getAssignSel() + ".csv";
+            AllQnsAns = System.IO.File.ReadAllLines(path);
+        }
+            
 
         EnemyMCQ.GetComponent<Enemy>().countEnemy(AllQnsAns);
         playerHandler.GetComponent<PlayerCharacter>().setPlayerHP(AllQnsAns);
