@@ -14,6 +14,7 @@ public class GameHandler : MonoBehaviour
     public List<GameObject> BG, skillHighlight, ansSkill;
     public List<GameObject> EnemyBoss;
     public List<TMP_Text> topTextDisplay;
+    public AudioSource Audio1, Audio2;
 
     private GameObject enemyHandler, gameHandler, player, playerHandler;
     private bool Ans1Sel = false, Ans2Sel = false, Ans3Sel = false, Ans4Sel = false, isGameEnd = false, isPlayerDead =
@@ -28,6 +29,7 @@ public class GameHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Audio2.Stop();
         timeUP = false;
         
         setWorldStr();
@@ -149,9 +151,14 @@ public class GameHandler : MonoBehaviour
         
         //Debug.Log(path);
     }
+    public void setBossMusic()
+    {
+        Audio1.Stop();
+        Audio2.Play();
+    }
     public void setPassingpoint(int totalNumQns)
     {
-        passingpoint = totalNumQns / 2;
+        passingpoint = totalNumQns / 2 - 2;
     }
     public void getPlayerHPDisplay()
     {
@@ -544,23 +551,26 @@ public class GameHandler : MonoBehaviour
         Ans3.GetComponent<Image>().color = Color.white;
         Ans4.GetComponent<Image>().color = Color.white;
     }
-    private void increaseDiff()
+    public void increaseDiff()
     {
         if (score >= passingpoint && !isHarderMode)
         {
             isHarderMode = true;
             topTextDisplay[1].text = "Time Attack";
             TimerBG.SetActive(true);
-        }else if (enemyHandler.GetComponent<Enemy>().isBossSpawn && !isHarderBoss)
+        }
+        
+        if (enemyHandler.GetComponent<Enemy>().isBossSpawn && !isHarderBoss)
         {
             isHarderBoss = true;
-            timeAtkMode1 = timeAtkMode1 - 20.0f;
+            timeAtkMode1 = timeAtkMode1 - 10.0f;
         }
 
         if(enemyHandler.GetComponent<Enemy>().isBossSpawn && !isIncreaseBoss)
         {
+            Debug.Log("Hello");
             isIncreaseBoss = true;
-            timeAtkMode1 = timeAtkMode1 - 20.0f;
+            timeAtkMode1 = timeAtkMode1 - 10.0f;
         }
     }
     void checkAns()

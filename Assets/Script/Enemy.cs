@@ -118,25 +118,15 @@ public class Enemy : MonoBehaviour
     void spawnEnemyBoss()
     {
         isBossSpawn = true;
-
+        gameHandler = GameObject.FindWithTag("GameController");
+        gameHandler.GetComponent<GameHandler>().setBossMusic();
+        gameHandler.GetComponent<GameHandler>().increaseDiff();
         Scene currentScene = SceneManager.GetActiveScene();
         string sceneName = currentScene.name;
-
+        
         if (sceneName == "World 1")
         {
-            currBoss = (GameObject)Instantiate(EnemyBoss0, new Vector3(-2.0f, -0.5f, 0), Quaternion.identity);
-        }
-        else if (sceneName == "World 2")
-        {
-            currBoss = (GameObject)Instantiate(EnemyBoss1, new Vector3(-2.0f, -0.5f, 0), Quaternion.identity);
-        }
-        else if (sceneName == "World 3")
-        {
-            currBoss = (GameObject)Instantiate(EnemyBoss2, new Vector3(-2.0f, -0.5f, 0), Quaternion.identity);
-        }
-        else if (sceneName == "World 4")
-        {
-            currBoss = (GameObject)Instantiate(EnemyBoss3, new Vector3(-2.0f, -0.5f, 0), Quaternion.identity);
+            currBoss = (GameObject)Instantiate(gameHandler.GetComponent<GameHandler>().setBoss(), new Vector3(-2.0f, -0.5f, 0), Quaternion.identity);
         }
         
     }
