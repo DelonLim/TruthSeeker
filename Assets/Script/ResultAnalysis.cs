@@ -44,14 +44,6 @@ public class ResultAnalysis : MonoBehaviour
     private void OnDisable()
     {
         
-        /*for (int x = 0; x< AvgTime.Length;x++)
-        {
-            if (AvgTime[x]!="")
-            {
-                testlast = testlast + "," + AvgTime[x];
-            }
-            
-        }*/
         Debug.Log(testlast);
         PlayerPrefs.SetString("AvgTime", testlast.Trim(','));
         PlayerPrefs.SetString("AvgScore", test2.Trim(','));
@@ -120,21 +112,6 @@ public class ResultAnalysis : MonoBehaviour
             testlast = testlast + "," + newlist[y];
         }
 
-        
-        //int[] temp = new int[newlist.Count];
-
-        //Debug.Log("Count is " + int.Parse(newlist[0]));
-
-        /*for (int y = 0; y < newlist.Count; y++)
-        {
-            int.Parse(newlist[0]);
-            //temp[z] += int.Parse(newlist[y]);
-            
-        }*/
-        //Debug.Log("sum is  " + temp[z]);
-        //AvgTime[z] = (temp[z] / newlist.Count).ToString();
-        //newlist.RemoveAt(newlist.Count - 1);
-       // z++;
     }
 
     // Update is called once per frame

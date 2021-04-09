@@ -9,22 +9,42 @@ public class MainMenu : MonoBehaviour
   public Button registerButton;
   public Button loginButton;
   public Button playButton;
-
+  public Button AccountSettingsButton;
   public Text playerDisplay;
+
+    string worldname;
 
   private void Start()
   {
-    if (DBManager.LoggedIn)
-    {
-      playerDisplay.text = "Player: " + DBManager.username;
+        StartCoroutine(LoadWorldName());
+        if (DBManager.LoggedIn)
+        {
+            playerDisplay.text = "Player: " + DBManager.username;
+            playButton.interactable = true;
+            AccountSettingsButton.interactable = true;
+            registerButton.interactable = false;
+            loginButton.interactable = false;
+        }
+        else 
+        {
+            playButton.interactable = false;
+            AccountSettingsButton.interactable = false;
+            registerButton.interactable =true;
+            loginButton.interactable = true;
+        }
     }
-    registerButton.interactable = !DBManager.LoggedIn;
-    loginButton.interactable = !DBManager.LoggedIn;
-    playButton.interactable = DBManager.LoggedIn;
 
-  }
+    private void OnEnable()
+    {
 
-  public void GoToRegister() {
+    }
+
+    private void OnDisable()
+    {
+        PlayerPrefs.SetString("WorldName", worldname.Trim(','));
+    }
+
+    public void GoToRegister() {
       SceneManager.LoadScene(2);
 
   }
@@ -34,7 +54,22 @@ public class MainMenu : MonoBehaviour
   }
 
   public void GoToGame() {
-      SceneManager.LoadScene(5);
-      
+      SceneManager.LoadScene(5);      
   }
+
+    public void GoToSettings()
+    {
+        SceneManager.LoadScene(26);
+    }
+
+    IEnumerator LoadWorldName()
+    {
+        WWWForm form = new WWWForm();
+        WWW www = new WWW("http://localhost/truthseekers/LoadUniqueWorld.php", form);
+        yield return www;
+
+
+        worldname = www.text;
+
+    }
 }
