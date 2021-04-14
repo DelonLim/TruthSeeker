@@ -23,6 +23,8 @@ public class ReadMCQ : MonoBehaviour
         gameHandler = GameObject.FindWithTag("GameController");
         playerHandler = GameObject.FindWithTag("Player");
 
+        //string path = "J:\\Users\\delon\\Documents\\GitHub\\TruthSeeker\\Assets\\World 1.csv";
+        //AllQnsAns = System.IO.File.ReadAllLines(path);
         if (gameHandler.GetComponent<WorldSelected>().getisWorldSel())
         {
             string path = "C:/xampp/tmp/" + gameHandler.GetComponent<WorldSelected>().getWorldSel() + ".csv";
@@ -33,7 +35,7 @@ public class ReadMCQ : MonoBehaviour
             string path = "C:/xampp/tmp/" + gameHandler.GetComponent<AssignmentMode>().getAssignSel() + ".csv";
             AllQnsAns = System.IO.File.ReadAllLines(path);
         }
-            
+
 
         EnemyMCQ.GetComponent<Enemy>().countEnemy(AllQnsAns);
         playerHandler.GetComponent<PlayerCharacter>().setPlayerHP(AllQnsAns);

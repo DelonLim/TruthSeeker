@@ -120,6 +120,7 @@ public class Enemy : MonoBehaviour
         isBossSpawn = true;
         gameHandler = GameObject.FindWithTag("GameController");
         gameHandler.GetComponent<GameHandler>().setBossMusic();
+        gameHandler.GetComponent<GameHandler>().setBossTxt();
         gameHandler.GetComponent<GameHandler>().increaseDiff();
         Scene currentScene = SceneManager.GetActiveScene();
         string sceneName = currentScene.name;
@@ -137,7 +138,13 @@ public class Enemy : MonoBehaviour
     public void deductHP(int attackPower)
     {
         enemyHP -= attackPower;
+        gameHandler = GameObject.FindWithTag("GameController");
+        gameHandler.GetComponent<GameHandler>().updateBossTxt(enemyHP);
     }
+    //public string getBossHP()
+    //{
+    //    return enemyHP;
+    //}
     public void EnemyDeath()
     {
         //for checking if there is any normal mob left in the scene
@@ -156,7 +163,15 @@ public class Enemy : MonoBehaviour
             StartCoroutine(DeleteBossCall());
         }
     }
-
+    public void EnemyRan()
+    {
+        //for checking if there is any normal mob left in the scene
+        if (enemies.Any())
+        {
+            StartCoroutine(DeleteMobCall());
+            enemyMobLeft -= 1;
+        }
+    }
     public void EnemyAtk()
     {
         //for checking if there is any normal mob left in the scene

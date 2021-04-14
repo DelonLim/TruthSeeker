@@ -7,7 +7,7 @@ using TMPro;
 
 public class GameHandler : MonoBehaviour
 {
-    public GameObject Alert, MCQ_UI, Clear_Msg, GameOver_MSG, TimerBG;
+    public GameObject Alert, MCQ_UI, Clear_Msg, GameOver_MSG, TimerBG, RanMsg, BossHP_txt;
     public Button Ans1, Ans2, Ans3, Ans4, cfmbtn, skill_btn;
     public string[] worldSetup;
     private int bossHP = 1;
@@ -19,7 +19,7 @@ public class GameHandler : MonoBehaviour
     private GameObject enemyHandler, gameHandler, player, playerHandler;
     private bool Ans1Sel = false, Ans2Sel = false, Ans3Sel = false, Ans4Sel = false, isGameEnd = false, isPlayerDead =
         false, timeUP = false, isSkillUsed = false, isHarderMode = false, isIncreaseBoss = false, isHarderBoss = false;
-    private float sec = 2.0f;
+    private float sec = 3.5f;
     private List<string> currMCQs;
     private string HP, timerUpload;
     private int score = 0, passingpoint = 0, gameMode = 0, HPRemain = 0;
@@ -31,7 +31,8 @@ public class GameHandler : MonoBehaviour
     {
         Audio2.Stop();
         timeUP = false;
-        
+        RanMsg.SetActive(false);
+        BossHP_txt.SetActive(false);
         setWorldStr();
         SetupWorld();
         gameHandler = GameObject.FindWithTag("GameController");
@@ -130,6 +131,11 @@ public class GameHandler : MonoBehaviour
                     player.GetComponent<PlayerCharacter>().deductHP();
                     enemyHandler.GetComponent<Enemy>().EnemyAtk();
                     MCQ_UI.SetActive(false);
+                    if (!enemyHandler.GetComponent<Enemy>().isBossSpawn)
+                    {
+                        StartCoroutine(DisplayRanMsg());
+                        enemyHandler.GetComponent<Enemy>().EnemyRan();
+                    }   
                     StartCoroutine(DisplayCall());
                 }
             }
@@ -138,23 +144,34 @@ public class GameHandler : MonoBehaviour
     private void setWorldStr()
     {
         gameHandler = GameObject.FindWithTag("GameController");
-
+        //string path = "J:\\Users\\delon\\Documents\\GitHub\\TruthSeeker\\Assets\\World 1 Setup.csv";
+        //worldSetup = System.IO.File.ReadAllLines(path);
         if (gameHandler.GetComponent<WorldSelected>().getisWorldSel())
         {
             string path = "C:/xampp/tmp/" + gameHandler.GetComponent<WorldSelected>().getWorldSel() + " Setup.csv";
             worldSetup = System.IO.File.ReadAllLines(path);
-        }else if (gameHandler.GetComponent<AssignmentMode>().getisAssignSel())
+        }
+        else if (gameHandler.GetComponent<AssignmentMode>().getisAssignSel())
         {
             string path = "C:/xampp/tmp/" + gameHandler.GetComponent<AssignmentMode>().getAssignSel() + " Setup.csv";
             worldSetup = System.IO.File.ReadAllLines(path);
         }
-        
+
         //Debug.Log(path);
     }
     public void setBossMusic()
     {
         Audio1.Stop();
         Audio2.Play();
+    }
+    public void setBossTxt()
+    {
+        BossHP_txt.SetActive(true);
+        topTextDisplay[3].text = "Boss HP : " + bossHP.ToString();
+    }
+    public void updateBossTxt(int HP)
+    { 
+        topTextDisplay[3].text = "Boss HP : " + HP.ToString();
     }
     public void setPassingpoint(int totalNumQns)
     {
@@ -626,12 +643,18 @@ public class GameHandler : MonoBehaviour
             //Save the questions and reuse the questions at the back
             gameHandler.GetComponent<ReadMCQ>().saveWrongQns(currMCQs);
             player.GetComponent<PlayerCharacter>().deductHP();
+            if (!enemyHandler.GetComponent<Enemy>().isBossSpawn)
+            {
+                StartCoroutine(DisplayRanMsg());
+                enemyHandler.GetComponent<Enemy>().EnemyRan();
+            }
             enemyHandler.GetComponent<Enemy>().EnemyAtk();
             HPRemain--;
             updateHP();
         }
         setColor();
         MCQ_UI.SetActive(false);
+        
         StartCoroutine(DisplayCall());
     }
     void checkAnsInverse()
@@ -687,6 +710,11 @@ public class GameHandler : MonoBehaviour
             //Save the questions and reuse the questions at the back
             gameHandler.GetComponent<ReadMCQ>().saveWrongQns(currMCQs);
             player.GetComponent<PlayerCharacter>().deductHP();
+            if (!enemyHandler.GetComponent<Enemy>().isBossSpawn)
+            {
+                StartCoroutine(DisplayRanMsg());
+                enemyHandler.GetComponent<Enemy>().EnemyRan();
+            }
             enemyHandler.GetComponent<Enemy>().EnemyAtk();
             HPRemain--;
             updateHP();
@@ -746,9 +774,15 @@ public class GameHandler : MonoBehaviour
         isPlayerDead = true;
         deleteAllFiles();
     }
+    IEnumerator DisplayRanMsg()
+    {
+        yield return new WaitForSeconds(1.5f);
+        RanMsg.SetActive(true);
+    }
     IEnumerator DisplayCall()
     {
         yield return new WaitForSeconds(sec);
+        RanMsg.SetActive(false);
         gameHandler.GetComponent<ReadMCQ>().nextQns();
         if (isPlayerDead)
         {
