@@ -750,13 +750,14 @@ public class GameHandler : MonoBehaviour
     IEnumerator SavePlayerData() 
     {
         WWWForm form = new WWWForm();
+        form.AddField("world", gameHandler.GetComponent<WorldSelected>().getWorldSel());
         form.AddField("name", DBManager.username);
         form.AddField("score", score); //user's current score uploaded to playerscoreDB
         form.AddField("time", timerUpload); //time taken by user uploaded to playerscoreDB
 
         WWW www = new WWW("http://localhost/truthseekers/savedata.php", form);
         yield return www;
-
+        Debug.Log("Managed to get here");
         if (www.text == "0")
         {
             Debug.Log("Game Saved.");

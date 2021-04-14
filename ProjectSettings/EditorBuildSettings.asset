@@ -83,4 +83,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Assignment.unity
     guid: 7fcc2db6911243e47a4e82ae237f18a9
+  - enabled: 1
+    path: Assets/Scenes/AccountSettings.unity
+    guid: 698b543d75b5ab44a91ab744d6a4296a
+  - enabled: 1
+    path: Assets/Scenes/Leaderboard.unity
+    guid: 3ff939c7075e0834aa019df62afd562b
   m_configObjects: {}

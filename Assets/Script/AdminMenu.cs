@@ -8,19 +8,22 @@ using UnityEngine.EventSystems;
 public class AdminMenu : MonoBehaviour
 {
     public Button LogoutBtn, gameMgnBtn, resultBtn, stuAccBtn, assignmentBtn;
-    string prev,test;
-    
+    string prev;
+
+    string test1;
+    string[] test;
+    List<string> newlist;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        //string name = Update();
-        //Button btn = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
-        //btn.onClick.AddListener(Load);
-        
+        StartCoroutine(LoadWorldName());
     }
 
     private void OnDisable()
     {
+        PlayerPrefs.SetString("WorldName", test1.Trim(','));
         PlayerPrefs.SetString("prev", prev);
     }
     void OnEnable()
@@ -58,6 +61,21 @@ public class AdminMenu : MonoBehaviour
                 break;
         }
     }
+
+    IEnumerator LoadWorldName()
+    {
+        WWWForm form = new WWWForm();
+        WWW www = new WWW("http://localhost/truthseekers/LoadUniqueWorld.php", form);
+        yield return www;
+
+        test1 = www.text;
+        test = test1.Split(',');
+
+        newlist = new List<string>(test);
+        newlist.RemoveAt(newlist.Count - 1);
+
+    }
+
     void Load()
 	{
 		//SceneManager.LoadScene(EventSystem.current.currentSelectedGameObject.name);

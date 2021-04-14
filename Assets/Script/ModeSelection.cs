@@ -9,11 +9,20 @@ public class ModeSelection : MonoBehaviour
     //0 = normal, 1 = timeAttack, 2 = inverse
     public static int gameMode = 0;
     public Button NormalBtn, TimeBtn, InverseBtn, AssignmentBtn, CommunityBtn, BackBtn;
+    string worldname;
     // Start is called before the first frame update
+
+    private void OnDisable()
+    {
+        PlayerPrefs.SetString("WorldName",worldname.Trim(','));
+    }
+
     void Start()
     {
         Scene currentScene = SceneManager.GetActiveScene();
         string sceneName = currentScene.name;
+
+        StartCoroutine(LoadDropdown());
 
         if (sceneName == "SelectGameMode")
         {
@@ -82,5 +91,14 @@ public class ModeSelection : MonoBehaviour
     {
         //go back to character selection
         SceneManager.LoadScene("CharacterSelection");
+    }
+
+    IEnumerator LoadDropdown()
+    {
+        WWWForm form = new WWWForm();
+        WWW www = new WWW("http://localhost/truthseekers/DropDownLoad.php", form);
+        yield return www;
+
+        worldname = www.text;
     }
 }
