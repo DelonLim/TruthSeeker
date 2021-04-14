@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class CharactersSel : MonoBehaviour
 {
@@ -12,7 +13,8 @@ public class CharactersSel : MonoBehaviour
     public Button ConfirmBtn;
     public Button CancelBtn;
     public GameObject Warrior, Magician, Knight, Thief;
-
+    public TMP_Text descript;
+    
     private GameObject spawnPos;
 
     public Toggle currentSelection
@@ -57,7 +59,27 @@ public class CharactersSel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Scene currentScene = SceneManager.GetActiveScene();
+        string sceneName = currentScene.name;
+        if (sceneName == "CharacterSelection")
+        {
+            if (currentSelection.name == "Magician")
+            {
+                descript.text = "Magician ability will reveal 2 possible answer with 1 of answer is correct";
+            }
+            else if (currentSelection.name == "Knight")
+            {
+                descript.text = "Knight have more HP than other class";
+            }
+            else if (currentSelection.name == "Thief")
+            {
+                descript.text = "Thief ability will remove 1 wrong answer";
+            }
+            else
+            {
+                descript.text = "Warrior ability will select 1 answer with 50% rate of it being correct";
+            }
+        }
     }
 
     public void SelectedChar()
